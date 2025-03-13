@@ -1,4 +1,4 @@
-module edu.ntnu.idi.idatt.mappeoppgavev2025 {
+module edu.ntnu.idi.idatt.mappeoppgavev {
   requires javafx.controls;
   requires javafx.fxml;
 
