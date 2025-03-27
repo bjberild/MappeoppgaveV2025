@@ -20,6 +20,7 @@ public class BoardGame {
   public void createBoard() {
     board = new Board();
     board.initializeStandardBoard(90);
+    board.addLadderActionTiles(7);
   }
 
   public void createDice(int numberOfDice) {
