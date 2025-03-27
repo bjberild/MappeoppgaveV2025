@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dice {
+
   private final List<Die> dice;
 
   public Dice(int numberOfDice) {

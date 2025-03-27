@@ -1,26 +1,32 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
 public class Tile {
-    private final int id; 
-    private Tile nextTile;
 
-    public Tile(int id) {
-        this.id = id;
-    }
+  private final int id;
+  private Tile nextTile;
+  private TileAction action = null;
 
-    public int getId() {
-        return id;
-    }
+  public Tile(int id) {
+    this.id = id;
+  }
 
-    public Tile getNextTile() {
-        return nextTile;
-    }
+  public void setAction(TileAction action) {
+    this.action = action;
+  }
 
-    public void setNextTile(Tile nextTile) {
-        this.nextTile = nextTile;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public boolean isFinalTile() {
-        return nextTile == null;
-    }
+  public Tile getNextTile() {
+    return nextTile;
+  }
+
+  public void setNextTile(Tile nextTile) {
+    this.nextTile = nextTile;
+  }
+
+  public boolean isFinalTile() {
+    return nextTile == null;
+  }
 }
