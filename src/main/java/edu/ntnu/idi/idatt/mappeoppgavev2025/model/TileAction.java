@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 public interface TileAction {
 

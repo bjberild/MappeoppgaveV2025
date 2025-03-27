@@ -1,11 +1,13 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Board {
 
   private List<Tile> tiles;
+  private final Random rand = new Random();
 
   //Creates a standard board with a given number of tiles
   public void initializeStandardBoard(int numTiles) {
@@ -19,10 +21,24 @@ public class Board {
     }
   }
 
+  //Creates a certain number of random LadderAction Tiles to the board
+  public void addLadderActionTiles(int numTiles) {
+    for (int i = 0; i < numTiles; i++) {
+      int startTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
+      int endTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
+      while (startTileIndex == endTileIndex) {
+        endTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
+      }
+      Tile startTile = tiles.get(startTileIndex);
+      TileAction action = new LadderAction(tiles.get(endTileIndex));
+      startTile.setAction(action);
+    }
+  }
+
   //This makes sure that the player starts at the first tile
   public Tile getStartTile() {
     if (tiles != null && !tiles.isEmpty()) {
-      return tiles.get(0);
+      return tiles.getFirst();
     }
     return null;
   }

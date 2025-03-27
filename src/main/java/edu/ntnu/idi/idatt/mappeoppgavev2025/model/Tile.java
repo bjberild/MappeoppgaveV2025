@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 public class Tile {
 
@@ -8,6 +8,12 @@ public class Tile {
 
   public Tile(int id) {
     this.id = id;
+  }
+
+  public void triggerAction(Player player) {
+    if (action != null) {
+      action.execute(player);
+    }
   }
 
   public void setAction(TileAction action) {
