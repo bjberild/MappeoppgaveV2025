@@ -1,9 +1,10 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dice {
+
   private final List<Die> dice;
 
   public Dice(int numberOfDice) {
@@ -14,7 +15,7 @@ public class Dice {
   }
 
   public int roll() {
-    int sum = 0; 
+    int sum = 0;
     for (Die die : dice) {
       sum += die.roll();
     }

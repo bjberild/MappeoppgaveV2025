@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Dice;
 import org.junit.jupiter.api.Test;
 
 
