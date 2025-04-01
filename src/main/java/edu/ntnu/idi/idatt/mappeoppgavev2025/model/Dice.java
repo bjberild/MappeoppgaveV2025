@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 import java.util.ArrayList;
 import java.util.List;

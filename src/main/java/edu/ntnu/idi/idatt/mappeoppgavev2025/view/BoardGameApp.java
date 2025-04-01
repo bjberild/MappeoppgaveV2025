@@ -1,4 +1,7 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 
 public class BoardGameApp {
     public static void main(String[] args) {

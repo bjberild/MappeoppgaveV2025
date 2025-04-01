@@ -1,7 +1,9 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.GameEventListener;
 public class BoardGame {
     private final List<Player> players = new ArrayList<>();
     private final List<GameEventListener> listeners = new ArrayList<>();

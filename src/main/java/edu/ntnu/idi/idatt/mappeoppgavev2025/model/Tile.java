@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 public class Tile {
     private final int id; 

@@ -3,6 +3,9 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
+
 
 public class BoardTest {
 
