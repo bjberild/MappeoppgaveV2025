@@ -1,4 +1,6 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
+
+import java.io.IOException;
 
 import java.io.IOException;
 import javafx.application.Application;

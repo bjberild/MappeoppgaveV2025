@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025;
+package edu.ntnu.idi.idatt.mappeoppgavev2025.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

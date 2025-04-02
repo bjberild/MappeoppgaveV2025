@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Die;
 import org.junit.jupiter.api.Test;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Die;
+
 public class DieTest {
     @Test
     public void testRollWithinRange() {
