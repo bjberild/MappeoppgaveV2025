@@ -86,4 +86,8 @@ public class BoardGame {
     rollDice();
   }
 
+  public Board getBoard() {
+    return board;
+  }
+
 }

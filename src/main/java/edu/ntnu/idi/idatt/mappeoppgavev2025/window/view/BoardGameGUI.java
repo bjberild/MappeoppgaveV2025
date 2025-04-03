@@ -11,7 +11,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 
 
 public class BoardGameGUI {
@@ -27,6 +30,19 @@ public class BoardGameGUI {
         gifView.setFitWidth(800);
         gifView.setPreserveRatio(true);
 
+        StackPane centerPane = new StackPane();
+        centerPane.getChildren().add(gifView);
+
+        game = new BoardGame();
+        game.createBoard();
+        game.createDice(2);
+        game.addPlayer(new Player("Alice"));
+        game.addPlayer(new Player("Bob"));
+        game.addEventListener(message -> Platform.runLater(() -> eventArea.appendText(message + "\n")));
+
+        GridPane boardGrid = LadderBoardGameView.createBoardGrid(game.getBoard());
+        centerPane.getChildren().add(boardGrid);
+
         eventArea = new TextArea();
         eventArea.setEditable(false);
         eventArea.setPrefHeight(150);
@@ -34,23 +50,14 @@ public class BoardGameGUI {
         nextRoundButton = new Button("Play next round");
         nextRoundButton.setOnAction(e -> playNextRound());
 
-        BorderPane root = new BorderPane();
-        root.setCenter(gifView);
-
         VBox controlBox = new VBox(10, eventArea, nextRoundButton);
         controlBox.setPadding(new Insets(10));
+
+        BorderPane root = new BorderPane();
+        root.setCenter(centerPane);
         root.setBottom(controlBox);
-        
+
         Scene scene = new Scene(root, 800, 600);
-
-        game = new BoardGame();
-        game.createBoard();
-        game.createDice(2);
-        game.addPlayer(new Player("Alice"));
-        game.addPlayer(new Player("Bob"));
-
-        game.addEventListener(message -> Platform.runLater(() -> eventArea.appendText(message + "\n")));
-
         return scene;
     }
 
