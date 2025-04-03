@@ -1,8 +1,12 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.window.view;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -13,22 +17,31 @@ public class MainMenuGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background-optimize.gif"));
+        ImageView backgroundView = new ImageView(gifImage);
+        backgroundView.setFitWidth(600); 
+        backgroundView.setPreserveRatio(true);
+
         Button snlB = new Button("Snakes and Ladders");
         Button sogB = new Button("Some Other Game");
 
         snlB.setOnAction(e -> {
             BoardGameGUI boardGameGUI = new BoardGameGUI();
-            try {
-                boardGameGUI.start(primaryStage);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            Scene gameScene = boardGameGUI.getScene();
+            primaryStage.setScene(gameScene);
+            primaryStage.setTitle("Snakes and Ladders");
         });
 
         sogB.setDisable(true);
 
         VBox menuLayout = new VBox(10, snlB, sogB);
-        Scene menuScene = new Scene(menuLayout, 400, 300);
+        menuLayout.setPadding(new Insets(20));
+
+        StackPane root = new StackPane();
+        root.getChildren().addAll(backgroundView, menuLayout);
+
+        Scene menuScene = new Scene(root, 400, 300);
 
         primaryStage.setTitle("Main Menu");
         primaryStage.setScene(menuScene);

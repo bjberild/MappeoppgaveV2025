@@ -1,8 +1,8 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.window.view;
 
+
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,19 +12,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 
-public class BoardGameGUI extends Application {
+public class BoardGameGUI {
 
     private BoardGame game;
     private TextArea eventArea; 
     private Button nextRoundButton;
 
-    @Override
-    public void start(Stage primaryStage) {
+    public Scene getScene() {
         
-        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
+        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.png"));
         ImageView gifView = new ImageView(gifImage);
         gifView.setFitWidth(800);
         gifView.setPreserveRatio(true);
@@ -44,11 +42,6 @@ public class BoardGameGUI extends Application {
         root.setBottom(controlBox);
         
         Scene scene = new Scene(root, 800, 600);
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
-        primaryStage.setTitle("Board Game GUI");
-        primaryStage.setScene(scene);
-        primaryStage.show();
 
         game = new BoardGame();
         game.createBoard();
@@ -57,6 +50,8 @@ public class BoardGameGUI extends Application {
         game.addPlayer(new Player("Bob"));
 
         game.addEventListener(message -> Platform.runLater(() -> eventArea.appendText(message + "\n")));
+
+        return scene;
     }
 
     private void playNextRound() {
@@ -68,10 +63,6 @@ public class BoardGameGUI extends Application {
             }
         } 
     }
+}
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-  
-  }
     

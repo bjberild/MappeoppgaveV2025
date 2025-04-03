@@ -76,6 +76,9 @@
             <configuration>
               <!-- Update the mainClass to point to your GUI class -->
               <mainClass>edu.ntnu.idi.idatt.mappeoppgavev2025.window.view.MainMenuGUI</mainClass>
+              <jvmArgs>
+                <jvmArg>-Xmx2048m</jvmArg>
+              </jvmArgs>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
