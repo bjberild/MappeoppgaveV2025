@@ -18,9 +18,10 @@ public class MainMenuGUI extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background-optimize.gif"));
+        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
         ImageView backgroundView = new ImageView(gifImage);
-        backgroundView.setFitWidth(600); 
+        backgroundView.setFitWidth(800); 
+        backgroundView.setFitHeight(700);
         backgroundView.setPreserveRatio(true);
 
         Button snlB = new Button("Snakes and Ladders");
@@ -45,6 +46,11 @@ public class MainMenuGUI extends Application {
 
         primaryStage.setTitle("Main Menu");
         primaryStage.setScene(menuScene);
+
+        primaryStage.setWidth(800);
+        primaryStage.setHeight(700);
+        primaryStage.setResizable(false);
+
         primaryStage.show();
     }
 
