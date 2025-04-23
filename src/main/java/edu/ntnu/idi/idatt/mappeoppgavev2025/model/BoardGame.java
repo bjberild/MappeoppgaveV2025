@@ -1,8 +1,9 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
-import edu.ntnu.idi.idatt.mappeoppgavev2025.event.GameEventListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.event.GameEventListener;
 
 public class BoardGame {
 
@@ -79,4 +80,18 @@ public class BoardGame {
       listener.onGameEvent(message);
     }
   }
+
+  public void playOneRound() {
+    startNextTurn();
+    rollDice();
+  }
+
+  public Board getBoard() {
+    return board;
+  }
+
+  public List<Player> getPlayers() {
+    return players;
+  }
+
 }
