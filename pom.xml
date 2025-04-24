@@ -75,7 +75,7 @@
             <id>default-cli</id>
             <configuration>
               <!-- Update the mainClass to point to your GUI class -->
-              <mainClass>edu.ntnu.idi.idatt.mappeoppgavev2025.window.view.MainMenuGUI</mainClass>
+              <mainClass>edu.ntnu.idi.idatt.mappeoppgavev2025.MainMenuGUI</mainClass>
               <jvmArgs>
                 <jvmArg>-Xmx2048m</jvmArg>
               </jvmArgs>
