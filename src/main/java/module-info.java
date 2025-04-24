@@ -15,12 +15,12 @@ module edu.ntnu.idi.idatt.mappeoppgavev2025 {
   opens edu.ntnu.idi.idatt.mappeoppgavev2025.model to javafx.fxml;
   
   // Controller package
-  exports edu.ntnu.idi.idatt.mappeoppgavev2025.controller;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.controller to javafx.fxml;
+  //exports edu.ntnu.idi.idatt.mappeoppgavev2025.controller;
+  //opens edu.ntnu.idi.idatt.mappeoppgavev2025.controller to javafx.fxml;
   
   // View package
-  exports edu.ntnu.idi.idatt.mappeoppgavev2025.view;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.view to javafx.fxml;
+  //exports edu.ntnu.idi.idatt.mappeoppgavev2025.view;
+  //opens edu.ntnu.idi.idatt.mappeoppgavev2025.view to javafx.fxml;
   
   // Window packages (for GUI classes)
   exports edu.ntnu.idi.idatt.mappeoppgavev2025.window;
