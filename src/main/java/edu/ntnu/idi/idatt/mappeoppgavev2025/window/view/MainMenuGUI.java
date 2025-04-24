@@ -47,9 +47,9 @@ public class MainMenuGUI extends Application {
         primaryStage.setTitle("Main Menu");
         primaryStage.setScene(menuScene);
 
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(700);
-        primaryStage.setResizable(false);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.setResizable(true);
 
         primaryStage.show();
     }

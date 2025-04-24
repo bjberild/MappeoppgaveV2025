@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+
 public class LadderBoardGameView {
 
     public static GridPane createBoardGrid(Board board) {
@@ -25,6 +26,7 @@ public class LadderBoardGameView {
         while (current != null && row >= 0) {
             Label tileLabel = new Label(String.valueOf(current.getId()));
             tileLabel.setMinSize(40, 40);
+            tileLabel.setPrefSize(80, 80);
             tileLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgreen; -fx-alignment: center;");
 
             if (leftToRight) {
