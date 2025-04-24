@@ -1,5 +1,6 @@
-package edu.ntnu.idi.idatt.mappeoppgavev2025.window.view;
+package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
