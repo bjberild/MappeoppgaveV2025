@@ -20,14 +20,4 @@ module edu.ntnu.idi.idatt.mappeoppgavev2025 {
 
   // View package
   exports edu.ntnu.idi.idatt.mappeoppgavev2025.view;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.view to javafx.fxml;
-
-  // Window packages (for GUI classes)
-  exports edu.ntnu.idi.idatt.mappeoppgavev2025.window;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.window to javafx.fxml;
-
-  exports edu.ntnu.idi.idatt.mappeoppgavev2025.window.view;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.window.view to javafx.fxml;
-  exports edu.ntnu.idi.idatt.mappeoppgavev2025.view;
-  opens edu.ntnu.idi.idatt.mappeoppgavev2025.view to javafx.fxml;
-}
+  opens edu.ntnu.idi.idatt.mappeoppgavev2025.view to javafx.fxml;}
