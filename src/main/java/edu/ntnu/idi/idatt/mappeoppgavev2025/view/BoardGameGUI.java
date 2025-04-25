@@ -2,12 +2,13 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls.ControlPanelView;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.dice.DiceView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.players.PlayerView;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.title.TitleBar;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -43,15 +44,10 @@ public class BoardGameGUI {
       
 
         //Top of the layout: Title
-     Image titleImage = new Image(getClass().getResourceAsStream(
-            "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Snakes-and-Ladders.png"
-        ));
-        ImageView titleImageView = new ImageView(titleImage);
-        titleImageView.setPreserveRatio(true);
-        titleImageView.setFitHeight(40);
-        BorderPane.setAlignment(titleImageView, Pos.CENTER);
-        BorderPane.setMargin(titleImageView, new Insets(20));
-        root.setTop(titleImageView);
+        root.setTop(new TitleBar("Snakes-and-Ladders.png"));
+        
+   
+   
         
         //Starts the game and creates the board, dice and players
         game = new BoardGame();
