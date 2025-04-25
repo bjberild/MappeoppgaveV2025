@@ -1,14 +1,11 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
-
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
-import javafx.application.Platform;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls.ControlPanelView;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.players.PlayerView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -27,8 +24,6 @@ import javafx.scene.layout.VBox;
 public class BoardGameGUI {
 
     private BoardGame game;
-    private TextArea eventArea; 
-    private Button nextRoundButton;
 
     public Scene getScene() {
 
@@ -69,67 +64,33 @@ public class BoardGameGUI {
         boardGrid.setPrefWidth(500);
         root.setCenter(boardGrid);
 
-        //Left side of the layout: Players
-        VBox playersBox = new VBox(10);
-        playersBox.setPadding(new Insets(20));
-        Label playersTitle = new Label("Players:");
-        playersTitle.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        playersBox.getChildren().add(playersTitle);
-        for (Player p : game.getPlayers()) {
-            Label playerLabel = new Label(p.getName());
-            playersBox.getChildren().add(playerLabel);
-        }
+        VBox playersBox = new PlayerView(game.getPlayers());
         
-        //Right side of the layout: Dice or other controls
-        VBox rightPanel = new VBox(10);
-        rightPanel.setPadding(new Insets(10));
-        Label diceLabel = new Label("Dice or other controls?");
-        rightPanel.getChildren().add(diceLabel);
+        DiceView diceView = new DiceView();
 
-
-        HBox mainContent = new HBox(20, playersBox, boardGrid, rightPanel);
+        HBox mainContent = new HBox(20, playersBox, boardGrid, diceView);
         mainContent.setAlignment(Pos.CENTER);
-
         HBox.setHgrow(playersBox, Priority.ALWAYS);
         HBox.setHgrow(boardGrid, Priority.ALWAYS);
-        HBox.setHgrow(rightPanel, Priority.ALWAYS);
-
+        HBox.setHgrow(diceView, Priority.ALWAYS);
         root.setCenter(mainContent);
-     
 
-        eventArea = new TextArea();
-        eventArea.setEditable(false);
-        eventArea.setPrefHeight(100);
-        nextRoundButton = new Button("Next Round");
-        nextRoundButton.setOnAction(e -> playNextRound());
-        VBox bottomBox = new VBox(5, eventArea, nextRoundButton);
-        bottomBox.setPadding(new Insets(10));
-        root.setBottom(bottomBox);
+
+
+        ControlPanelView controlPanel = new ControlPanelView(game);
+        root.setBottom(controlPanel);
+        BorderPane.setMargin(controlPanel, new Insets(10));
+    
 
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
         scene.getStylesheets().add(
             getClass().getResource("/edu/ntnu/idi/idatt/mappeoppgavev2025/styles/styles.css").toExternalForm()
             );
-        
-        game.addEventListener(message -> {
-            Platform.runLater(() -> {
-                eventArea.appendText(message + "\n");
-            });
-        });
 
         return scene;
  
     }
 
-    private void playNextRound() {
-        if (!game.isFinished()) {
-            game.playOneRound();
-            if (game.isFinished()) {
-                nextRoundButton.setDisable(true);
-                eventArea.appendText("The winner is " + game.getWinner().getName() + "\n");
-            }
-        } 
-    }
 }
 
     
