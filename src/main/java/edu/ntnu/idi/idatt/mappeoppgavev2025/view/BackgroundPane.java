@@ -19,5 +19,4 @@ public class BackgroundPane extends BorderPane {
         BackgroundImage bi = new BackgroundImage(img, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size);
         setBackground(new Background(bi));
     }
-
 }

@@ -5,10 +5,13 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls.ControlPanelView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.dice.DiceView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.players.PlayerView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.title.TitleBar;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+
 
 
 
@@ -35,6 +38,8 @@ public abstract class GameView extends BackgroundPane {
         StackPane center = new StackPane(createBoardPane());
         center.setAlignment(Pos.CENTER);
         setCenter(center);
+
+        BorderPane.setMargin(center, new Insets(0, 20, 0, 20));
 
         setBottom(new ControlPanelView(game));
     }
