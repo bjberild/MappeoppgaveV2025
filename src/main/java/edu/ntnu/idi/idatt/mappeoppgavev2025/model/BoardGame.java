@@ -59,7 +59,7 @@ public class BoardGame {
 
     Tile currentTile = currentPlayer.getCurrentTile();
     Tile newTile = board.getTileAfter(currentTile, rollResult);
-    currentPlayer.setCurrentTile(newTile);
+    currentPlayer.moveToTile(newTile);
     notifyEvent("Player " + currentPlayer.getName() + " moved to tile " + newTile.getId());
 
     if (newTile.isFinalTile()) {
