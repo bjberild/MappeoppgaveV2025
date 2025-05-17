@@ -35,4 +35,8 @@ public class Tile {
   public boolean isFinalTile() {
     return nextTile == null;
   }
+
+  public TileAction getAction() {
+    return action;
+  }
 }

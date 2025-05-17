@@ -1,0 +1,8 @@
+{
+    "tiles": [
+      { "id": 1, "nextTile": 2 },
+      { "id": 2, "nextTile": 3 },
+      { "id": 89, "nextTile": 90 },
+      { "id": 90 }
+    ]
+  }

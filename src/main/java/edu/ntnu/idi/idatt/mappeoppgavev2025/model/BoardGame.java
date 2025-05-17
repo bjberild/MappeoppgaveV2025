@@ -28,6 +28,10 @@ public class BoardGame {
     dice = new Dice(numberOfDice);
   }
 
+  public void setBoard(Board board) {
+    this.board = board;
+  }
+
   public void addPlayer(Player player) {
     player.setCurrentTile(board.getStartTile());
     players.add(player);

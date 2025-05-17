@@ -1,16 +1,51 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
+
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+
+
+
 
 public class BoardGameGUI {
 
-    public Scene getScene() {
+    public Scene getScene(Stage stage) {
 
         BoardGame game = new BoardGame();
-        game.createBoard();
+
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(new ExtensionFilter("JSON", "*.json"));
+        File file = chooser.showOpenDialog(stage);
+
+        if (file != null) {
+            try {
+              String jsonText = Files.readString(file.toPath());
+              JsonObject boardJson = JsonParser.parseString(jsonText).getAsJsonObject();
+              Board loaded = new GsonBoardPersistence().deserialize(boardJson);
+              game = new BoardGame();
+              game.setBoard(loaded);  
+            } catch (IOException e) {
+              e.printStackTrace();
+
+              game.createBoard();
+            }
+        } else {
+            game.createBoard();
+        }
+                
         game.createDice(2);
         game.addPlayer(new Player("Alice"));
         game.addPlayer(new Player("Bob"));
@@ -19,15 +54,13 @@ public class BoardGameGUI {
 
         Scene scene = view.toScene(800, 600);
 
-
         scene.getStylesheets().add(
             getClass().getResource("/edu/ntnu/idi/idatt/mappeoppgavev2025/styles/styles.css").toExternalForm()
             );
 
         return scene;
- 
-    }
 
+    }
 }
 
-    
+
