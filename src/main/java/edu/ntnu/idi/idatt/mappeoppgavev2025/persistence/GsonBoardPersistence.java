@@ -41,6 +41,9 @@ public class GsonBoardPersistence implements BoardPersistence {
 
     @Override
     public Board deserialize(JsonObject json) {
+        if (!json.has("tiles") || !json.get("tiles").isJsonArray()) {
+            throw new IllegalArgumentException("Invalid JSON: missing or invalid 'tiles' array");
+        }
         JsonArray tilesJson = json.getAsJsonArray("tiles"); 
 
         // This figures out how many tiles we have in the JSON
@@ -59,7 +62,13 @@ public class GsonBoardPersistence implements BoardPersistence {
         
         
         for (JsonElement e : tilesJson) {
+            if (!e.isJsonObject()) {
+                throw new IllegalArgumentException("Invalid JSON: each tile must be a JSON object");
+            }
             JsonObject t = e.getAsJsonObject();
+            if (!t.has("id")) {
+                throw new IllegalArgumentException("Invalid JSON: each tile must have an 'id'");
+            }
             int id = t.get("id").getAsInt();
             Tile tile = board.getTileById(id)
                              .orElseThrow(() -> new IllegalStateException(
