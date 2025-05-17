@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.persistence;
 
+import java.util.stream.StreamSupport;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -40,22 +42,30 @@ public class GsonBoardPersistence implements BoardPersistence {
     @Override
     public Board deserialize(JsonObject json) {
         JsonArray tilesJson = json.getAsJsonArray("tiles"); 
+
+        // This figures out how many tiles we have in the JSON
+        int maxId = StreamSupport.stream(tilesJson.spliterator(), false)
+            .map(JsonElement::getAsJsonObject)
+            .mapToInt(o -> o.get("id").getAsInt())
+            .max()
+            .orElseThrow(() -> new IllegalStateException("No tiles found in JSON")); 
+        
         Board board = new Board();
+        board.initializeStandardBoard(maxId);
+
         if (json.has("name")) {
             board.setName(json.get("name").getAsString());
         }
         
-        board.createEmpty(tilesJson.size());
+        
         for (JsonElement e : tilesJson) {
             JsonObject t = e.getAsJsonObject();
-            board.addTile(new Tile(t.get("id").getAsInt()));
-        }
-
-        for (JsonElement e : tilesJson) {
-            JsonObject t = e.getAsJsonObject(); 
             int id = t.get("id").getAsInt();
-            Tile tile = board.getTileById(id).orElseThrow(() -> new IllegalStateException("Tile with id " + id + " not found"));
-            
+            Tile tile = board.getTileById(id)
+                             .orElseThrow(() -> new IllegalStateException(
+                                "Tile with id " + id + " not found"));
+
+
             if (t.has("nextTile")) {
                 int nxt = t.get("nextTile").getAsInt();
                 board.getTileById(nxt).ifPresent(tile::setNextTile);
@@ -70,5 +80,5 @@ public class GsonBoardPersistence implements BoardPersistence {
             }
         }
         return board;
-    } 
+    }
 }
