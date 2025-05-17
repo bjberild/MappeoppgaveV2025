@@ -25,4 +25,6 @@ module edu.ntnu.idi.idatt.mappeoppgavev2025 {
 
   exports edu.ntnu.idi.idatt.mappeoppgavev2025.persistence;
   opens edu.ntnu.idi.idatt.mappeoppgavev2025.persistence to com.google.gson;
+
+  exports edu.ntnu.idi.idatt.mappeoppgavev2025.demos;
 }
