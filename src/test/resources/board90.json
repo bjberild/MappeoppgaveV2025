@@ -1,8 +1,22 @@
 {
-    "tiles": [
-      { "id": 1, "nextTile": 2 },
-      { "id": 2, "nextTile": 3 },
-      { "id": 89, "nextTile": 90 },
-      { "id": 90 }
-    ]
+  "name": "Board90 with Portals & Traps",
+  "tiles": [
+    { "id": 1, "nextTile": 2 },
+    { "id": 2, "nextTile": 3 },
+    { "id": 5, "nextTile": 6,
+      "action": {
+        "type": "PortalAction",
+        "destinationTileId": 15
+      }
+    },
+    { "id": 15, "nextTile": 16 },
+    { "id": 20, "nextTile": 21,
+      "action": {
+        "type": "FallTrapAction",
+        "destinationTileId": 2
+      }
+    },
+    { "id": 89, "nextTile": 90 },
+    { "id": 90 }
+  ]
   }
