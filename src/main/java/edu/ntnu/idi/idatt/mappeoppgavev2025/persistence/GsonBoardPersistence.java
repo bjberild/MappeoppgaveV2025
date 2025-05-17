@@ -8,8 +8,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.FallTrapAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.LadderAction;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.PortalAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.TileAction;
+
 
 
 public class GsonBoardPersistence implements BoardPersistence {
@@ -21,20 +25,40 @@ public class GsonBoardPersistence implements BoardPersistence {
         JsonObject root = new JsonObject();
         root.addProperty("name", board.getName());
         JsonArray tilesArray = new JsonArray();
+
         for (Tile tile : board.getAllTiles()) {
             JsonObject t = new JsonObject();
             t.addProperty("id", tile.getId());
             if (tile.getNextTile() != null) {
                 t.addProperty("nextTile", tile.getNextTile().getId());
-            if (tile.getAction() instanceof LadderAction) {
-                JsonObject action = new JsonObject();
-                action.addProperty("type", "LadderAction");
-                action.addProperty("destinationTileId", ((LadderAction) tile.getAction()).getDestinationTile().getId());
-                t.add("action", action);
-                }
             }
+            TileAction act = tile.getAction();
+            if (act instanceof LadderAction) {
+              LadderAction la = (LadderAction) act;
+              JsonObject action = new JsonObject();
+              action.addProperty("type", "LadderAction");
+              action.addProperty("destinationTileId", la.getDestinationTile().getId());
+              t.add("action", action);
+      
+            } else if (act instanceof PortalAction) {
+              PortalAction pa = (PortalAction) act;
+              JsonObject action = new JsonObject();
+              action.addProperty("type", "PortalAction");
+              action.addProperty("destinationTileId", pa.getDestinationTile().getId());
+              t.add("action", action);
+      
+            } else if (act instanceof FallTrapAction) {
+              FallTrapAction fa = (FallTrapAction) act;
+              JsonObject action = new JsonObject();
+              action.addProperty("type", "FallTrapAction");
+              action.addProperty("destinationTileId", fa.getDestinationTile().getId());
+              t.add("action", action);
+            }
+
+
             tilesArray.add(t);
         }
+
         root.add("tiles", tilesArray);
         return root;
     }
@@ -46,7 +70,6 @@ public class GsonBoardPersistence implements BoardPersistence {
         }
         JsonArray tilesJson = json.getAsJsonArray("tiles"); 
 
-        // This figures out how many tiles we have in the JSON
         int maxId = StreamSupport.stream(tilesJson.spliterator(), false)
             .map(JsonElement::getAsJsonObject)
             .mapToInt(o -> o.get("id").getAsInt())
@@ -59,7 +82,6 @@ public class GsonBoardPersistence implements BoardPersistence {
         if (json.has("name")) {
             board.setName(json.get("name").getAsString());
         }
-        
         
         for (JsonElement e : tilesJson) {
             if (!e.isJsonObject()) {
@@ -82,12 +104,28 @@ public class GsonBoardPersistence implements BoardPersistence {
 
             if (t.has("action")) {
                 JsonObject a = t.getAsJsonObject("action");
-                if ("LadderAction".equals(a.get("type").getAsString())) {
-                    int dest = a.get("destinationTileId").getAsInt();
-                    board.getTileById(dest).ifPresent(destination -> tile.setAction(new LadderAction(destination)));
-                }
-            }
+                String type = a.get("type").getAsString();
+                int dest = a.get("destinationTileId").getAsInt();
+
+                switch (type) {
+                    case "LadderAction":
+                      board.getTileById(dest)
+                           .ifPresent(d -> tile.setAction(new LadderAction(d)));
+                      break;
+                    case "PortalAction":
+                      board.getTileById(dest)
+                           .ifPresent(d -> tile.setAction(new PortalAction(d)));
+                        break;
+                    case "FallTrapAction":
+                        board.getTileById(dest)
+                             .ifPresent(d -> tile.setAction(new FallTrapAction(d)));
+                            break;
+                    default:
+                        throw new IllegalArgumentException("Invalid action type: " + type);
+          }
         }
-        return board;
-    }
+      }
+        
+    return board;
+  }
 }

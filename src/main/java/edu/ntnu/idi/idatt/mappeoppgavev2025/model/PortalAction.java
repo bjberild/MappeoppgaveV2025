@@ -7,6 +7,10 @@ public class PortalAction implements TileAction {
         this.destination = destination;
     }
 
+    public Tile getDestinationTile() {
+        return destination;
+    }
+
     @Override
     public void execute(Player player) {
         player.setCurrentTile(destination);
