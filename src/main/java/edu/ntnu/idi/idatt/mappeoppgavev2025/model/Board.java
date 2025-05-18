@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+
 public class Board {
 
   private String name;
@@ -126,6 +127,30 @@ public class Board {
       destinationIndex = tiles.size() - 1;
     }
     return tiles.get(destinationIndex);
+  }
+
+  public void addPortalActionTiles(int numPortals) {
+    Random rand = new Random();
+    for (int i = 0; i < numPortals; i++) {
+      int from = rand.nextInt(tiles.size() - 2) + 1;
+      int to;
+      do {
+        to = rand.nextInt(tiles.size() - 1) + 1;
+      } while (to == from);
+      tiles.get(from).setAction(new PortalAction(tiles.get(to)));
+    }
+  }
+
+  public void addFallTrapActionTiles(int numTraps) {
+    Random rand = new Random();
+    for (int i = 0; i < numTraps; i++) {
+      int from = rand.nextInt(tiles.size() - 2) + 1;
+      int to = rand.nextInt(tiles.size() - 1) + 1;
+      while (to >= from) {
+        to = rand.nextInt(tiles.size() - 1) + 1;
+      }
+      tiles.get(from).setAction(new FallTrapAction(tiles.get(to)));
+    }
   }
 
 

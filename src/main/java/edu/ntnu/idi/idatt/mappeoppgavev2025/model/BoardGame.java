@@ -21,7 +21,9 @@ public class BoardGame {
   public void createBoard() {
     board = new Board();
     board.initializeStandardBoard(90);
-    board.addLadderActionTiles(7);
+    board.addLadderActionTiles(5);
+    board.addFallTrapActionTiles(3);
+    board.addPortalActionTiles(3);
   }
 
   public void createDice(int numberOfDice) {

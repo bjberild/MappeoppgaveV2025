@@ -11,6 +11,7 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
 
 
+//This demo forces the player to land on a portal and a trap.
 public class PortalTrapDemo {
 
     public static void main(String[] args) throws Exception {
