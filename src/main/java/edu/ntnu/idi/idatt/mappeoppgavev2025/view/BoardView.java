@@ -1,7 +1,10 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.FallTrapAction;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.PortalAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.TileAction;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -33,9 +36,22 @@ public class BoardView extends Region {
         boolean leftToRight = true;
 
         while (current != null && row >= 0) {
-            Label tileLabel = new Label(String.valueOf(current.getId()));
-            tileLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            tileLabel.setStyle("-fx-border-color: black; -fx-background-color: lightgreen; -fx-alignment: center;");
+           Label tileLabel = new Label(String.valueOf(current.getId()));
+           tileLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+           TileAction act = current.getAction();
+           String bg;
+           if      (act instanceof FallTrapAction) bg = "tomato";
+           else if (act instanceof PortalAction)   bg = "gold";
+           else                                    bg = "lightgreen";
+
+           tileLabel.setStyle(String.join(";",
+               "-fx-background-color: " + bg,
+               "-fx-border-color: black",
+               "-fx-alignment: center"
+               ));
+
+
             if (leftToRight) {
                 grid.add(tileLabel, col, row);
             } else {

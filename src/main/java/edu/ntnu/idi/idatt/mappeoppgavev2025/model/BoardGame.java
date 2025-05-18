@@ -21,7 +21,6 @@ public class BoardGame {
   public void createBoard() {
     board = new Board();
     board.initializeStandardBoard(90);
-    board.addLadderActionTiles(5);
     board.addFallTrapActionTiles(3);
     board.addPortalActionTiles(3);
   }
@@ -62,7 +61,9 @@ public class BoardGame {
     Tile currentTile = currentPlayer.getCurrentTile();
     Tile newTile = board.getTileAfter(currentTile, rollResult);
     currentPlayer.moveToTile(newTile);
-    notifyEvent("Player " + currentPlayer.getName() + " moved to tile " + newTile.getId());
+    
+    int landed = currentPlayer.getCurrentTile().getId();
+    notifyEvent("Player " + currentPlayer.getName() + " landed on tile " + landed);
 
     if (newTile.isFinalTile()) {
       winner = currentPlayer;
