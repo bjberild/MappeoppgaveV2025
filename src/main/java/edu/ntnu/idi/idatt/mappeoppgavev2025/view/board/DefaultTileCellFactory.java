@@ -22,7 +22,7 @@ public class DefaultTileCellFactory implements TileCellFactory {
 
         TileAction act = tile.getAction();
         String iconPath = null; 
-        if (act instanceof PortalAction) iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/portal.png";
+        if (act instanceof PortalAction) iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/portal_2.png";
         if (act instanceof FallTrapAction) iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/trap.gif";
         if (iconPath != null) {
             InputStream in = getClass().getResourceAsStream(iconPath);
@@ -42,5 +42,5 @@ public class DefaultTileCellFactory implements TileCellFactory {
 
         return cell;
     }
-    
+
 }

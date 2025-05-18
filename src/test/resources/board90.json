@@ -10,6 +10,7 @@
       }
     },
     { "id": 15, "nextTile": 16 },
+    
     { "id": 20, "nextTile": 21,
       "action": {
         "type": "FallTrapAction",
