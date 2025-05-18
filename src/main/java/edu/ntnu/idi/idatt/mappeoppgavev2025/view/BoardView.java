@@ -1,11 +1,9 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.FallTrapAction;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.PortalAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.TileAction;
-import javafx.scene.control.Label;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.TileCellFactory;
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -14,9 +12,13 @@ import javafx.scene.layout.RowConstraints;
 public class BoardView extends Region {
     private static final int COLUMNS = 10;
     private static final int ROWS = 10;
-    private final GridPane grid;
 
-    public BoardView(Board board) {
+    private final GridPane grid;
+    private final TileCellFactory cellFactory;
+
+
+    public BoardView(Board board, TileCellFactory cellFactory) {
+        this.cellFactory = cellFactory;
         grid  = new GridPane();
 
         for (int i = 0; i < COLUMNS; i++) {
@@ -36,26 +38,11 @@ public class BoardView extends Region {
         boolean leftToRight = true;
 
         while (current != null && row >= 0) {
-           Label tileLabel = new Label(String.valueOf(current.getId()));
-           tileLabel.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-
-           TileAction act = current.getAction();
-           String bg;
-           if      (act instanceof FallTrapAction) bg = "tomato";
-           else if (act instanceof PortalAction)   bg = "gold";
-           else                                    bg = "lightgreen";
-
-           tileLabel.setStyle(String.join(";",
-               "-fx-background-color: " + bg,
-               "-fx-border-color: black",
-               "-fx-alignment: center"
-               ));
-
-
+        Node cell = cellFactory.createCell(current, 0, 0);
             if (leftToRight) {
-                grid.add(tileLabel, col, row);
+                grid.add(cell, col, row);
             } else {
-                grid.add(tileLabel, COLUMNS - 1 - col, row);
+                grid.add(cell, COLUMNS - 1 - col, row);
             }
             col++;
             if (col >= COLUMNS) {

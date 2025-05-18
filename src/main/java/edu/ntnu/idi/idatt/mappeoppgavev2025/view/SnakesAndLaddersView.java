@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.DefaultTileCellFactory;
 import javafx.scene.Node;
 
 public class SnakesAndLaddersView extends GameView {
@@ -9,7 +10,10 @@ public class SnakesAndLaddersView extends GameView {
     }
     @Override
     protected Node createBoardPane() {
-        return new BoardView(game.getBoard());
+        return new BoardView(
+            game.getBoard(),
+            new DefaultTileCellFactory()
+        );
     }
 
     @Override

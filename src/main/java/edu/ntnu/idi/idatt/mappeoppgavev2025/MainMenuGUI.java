@@ -30,8 +30,13 @@ public class MainMenuGUI extends Application {
 
         snlB.setOnAction(e -> {
            BoardGameGUI launcher = new BoardGameGUI();
-           primaryStage.setScene(launcher.getScene(primaryStage));
-           primaryStage.setTitle("Snakes and Ladders"); 
+           Scene gameScene = launcher.getScene(primaryStage);
+           primaryStage.setScene(gameScene);
+           primaryStage.setTitle("Snakes and Ladders");
+           primaryStage.sizeToScene();
+           primaryStage.centerOnScreen();
+
+
         });
 
         sogB.setDisable(true);
