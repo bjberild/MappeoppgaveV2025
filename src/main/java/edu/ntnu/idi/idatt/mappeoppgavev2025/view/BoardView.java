@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,18 +65,19 @@ public class BoardView extends Region {
         }
 
         for (Player p : players) {
-            ImageView token = new ImageView(
-                new Image(getClass().getResourceAsStream(
-                    "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/tokens/" 
-                    + p.getToken() + ".png"
-              )
-            ));
-            token.setFitWidth(30);
-            token.setFitHeight(30);
-            tokenMap.put(p, token);
+            String tokenName = p.getToken().trim();
+            String path      = "/edu/ntnu/idi/idatt/mappeoppgavev2025/view/tokens/" + tokenName + ".png";
+            InputStream in   = getClass().getResourceAsStream(path);
+            if (in == null) {
+                throw new IllegalArgumentException("Token image not found: " + path);
+            }
+            ImageView tokenIcon = new ImageView(new Image(in));
+            tokenIcon.setFitWidth(30);
+            tokenIcon.setFitHeight(30);
+            tokenMap.put(p, tokenIcon);
 
             StackPane startPane = lookupCellPane(p.getCurrentTile().getId());
-            startPane.getChildren().add(token);
+            startPane.getChildren().add(tokenIcon);
 
         }
         getChildren().add(grid);

@@ -3,6 +3,8 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 import java.io.File;
 import java.io.IOException;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.event.PlayerMovementListener;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.event.TileHighlighter;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistenceException;
@@ -52,6 +54,12 @@ public class BoardGameGUI {
 
 
         SnakesAndLaddersView view = new SnakesAndLaddersView(game);
+        game.addEventListener(new TileHighlighter(view.getBoardView()));
+
+        game.addEventListener(
+            new PlayerMovementListener(view.getBoardView(), game.getPlayers())
+        );
+        
         Scene scene = view.toScene(800, 600);
 
         game.addEventListener(new edu.ntnu.idi.idatt.mappeoppgavev2025.event.TileHighlighter(view.getBoardView()));

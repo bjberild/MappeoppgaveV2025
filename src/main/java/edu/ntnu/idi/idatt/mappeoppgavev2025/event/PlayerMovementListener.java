@@ -20,7 +20,7 @@ public class PlayerMovementListener implements GameEventListener {
             String[] parts = message.split(" ");
             String playerName = parts[1];
             int from = Integer.parseInt(parts[5]);
-            int to   = Integer.parseInt(parts[7]);
+            int to   = Integer.parseInt(parts[8]);
 
             players.stream()
                    .filter(p -> p.getName().equals(playerName))
