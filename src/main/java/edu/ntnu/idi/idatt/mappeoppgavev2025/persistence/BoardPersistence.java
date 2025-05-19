@@ -4,5 +4,5 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 
 public interface BoardPersistence {
     com.google.gson.JsonObject serialize(Board board);
-    Board                    deserialize(com.google.gson.JsonObject json);
+    Board                      deserialize(com.google.gson.JsonObject json);
 }
