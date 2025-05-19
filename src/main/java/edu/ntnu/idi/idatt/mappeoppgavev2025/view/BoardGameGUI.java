@@ -26,6 +26,9 @@ public class BoardGameGUI {
     public Scene getScene(Stage stage) {
 
         BoardGame game = new BoardGame();
+        game.createBoard();
+        game.createDice(2);
+
         FileChooser boardChooser = new FileChooser();
         boardChooser.getExtensionFilters().add(new ExtensionFilter("JSON", "*.json"));
         boardChooser.setTitle("Load Board Definition");
@@ -38,28 +41,25 @@ public class BoardGameGUI {
               game.setBoard(loaded);  
             } catch (IOException | IllegalArgumentException e) {
                 showError("Error, failed to load board from JSON:\n" + e.getMessage());
-                addDefaultPlayersAndBoard(game);
             }
-        } else {
-            addDefaultPlayersAndBoard(game);
         }
                 
-        game.createDice(2);
+     
 
         FileChooser csvChooser = new FileChooser();
         csvChooser.getExtensionFilters().add(new ExtensionFilter("CSV", "*.csv"));
         File csvFile = csvChooser.showOpenDialog(stage);
         if (csvFile != null) {
             try {
-                CsvPlayerPersistence csvPers = new CsvPlayerPersistence();
-                List<Player> players = csvPers.load(csvFile.toPath());
+                List<Player> players = new CsvPlayerPersistence().load(csvFile.toPath());
                 players.forEach(game::addPlayer);
             } catch (PlayerPersistenceException e) {
                 showError("Error, failed to load players from CSV:\n" + e.getMessage());
                 addDefaultPlayersAndBoard(game);
             }
+        } else {
+            addDefaultPlayersAndBoard(game);
         }
-
 
 
         SnakesAndLaddersView view = new SnakesAndLaddersView(game);
