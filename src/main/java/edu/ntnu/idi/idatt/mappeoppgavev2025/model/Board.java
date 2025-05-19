@@ -113,16 +113,16 @@ public class Board {
 
   public void addPortalActionTiles(int numPortals) {
     Random rand = new Random();
+    int lastIndex = tiles.size() - 1;
     for (int i = 0; i < numPortals; i++) {
-      int from = rand.nextInt(tiles.size() - 2) + 1;
-      int to;
-      do {
-        to = rand.nextInt(tiles.size() - 1) + 1;
-      } while (to == from);
+      int from = rand.nextInt(lastIndex);
+      int to = rand.nextInt(lastIndex - from) + from + 1;
       tiles.get(from).setAction(new PortalAction(tiles.get(to)));
     }
   }
+    
 
+    
 
   public void addFallTrapActionTiles(int numTraps) {
     Random rand = new Random();

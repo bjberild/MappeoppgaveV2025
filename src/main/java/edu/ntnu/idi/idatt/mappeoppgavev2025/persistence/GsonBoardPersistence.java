@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.FallTrapAction;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.LadderAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.PortalAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.TileAction;
@@ -33,14 +32,7 @@ public class GsonBoardPersistence implements BoardPersistence {
                 t.addProperty("nextTile", tile.getNextTile().getId());
             }
             TileAction act = tile.getAction();
-            if (act instanceof LadderAction) {
-              LadderAction la = (LadderAction) act;
-              JsonObject action = new JsonObject();
-              action.addProperty("type", "LadderAction");
-              action.addProperty("destinationTileId", la.getDestinationTile().getId());
-              t.add("action", action);
-      
-            } else if (act instanceof PortalAction) {
+            if (act instanceof PortalAction) {
               PortalAction pa = (PortalAction) act;
               JsonObject action = new JsonObject();
               action.addProperty("type", "PortalAction");
@@ -108,10 +100,6 @@ public class GsonBoardPersistence implements BoardPersistence {
                 int dest = a.get("destinationTileId").getAsInt();
 
                 switch (type) {
-                    case "LadderAction":
-                      board.getTileById(dest)
-                           .ifPresent(d -> tile.setAction(new LadderAction(d)));
-                      break;
                     case "PortalAction":
                       board.getTileById(dest)
                            .ifPresent(d -> tile.setAction(new PortalAction(d)));
