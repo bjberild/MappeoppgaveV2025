@@ -65,9 +65,11 @@ public class ControlPanelView extends VBox {
 
     private void showInfo(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Info"); a.setHeaderText(null);
+        a.initOwner(getScene().getWindow());
+        a.setTitle("Info"); 
+        a.setHeaderText(null);
         a.setContentText(msg);
-        a.showAndWait();
+        a.show();
     }
 
 
