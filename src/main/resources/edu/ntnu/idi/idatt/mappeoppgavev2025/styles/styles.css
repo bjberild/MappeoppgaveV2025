@@ -4,3 +4,12 @@
     -fx-background-size: stretch;
     -fx-background-position: center;
 }
+
+.tile.highlight-source {
+    -fx-border-color: yellow;
+    -fx-border-width: 3;
+}
+.tile.highlight-dest {
+    -fx-border-color: red;
+    -fx-border-width: 3;
+}

@@ -7,10 +7,12 @@ import java.nio.file.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.event.TileHighlighter;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardView;
 
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
@@ -53,6 +55,7 @@ public class BoardGameGUI {
         SnakesAndLaddersView view = new SnakesAndLaddersView(game);
 
         Scene scene = view.toScene(800, 600);
+        game.addEventListener(new TileHighlighter(view.getBoardView()));
 
         scene.getStylesheets().add(
             getClass().getResource("/edu/ntnu/idi/idatt/mappeoppgavev2025/styles/styles.css").toExternalForm()

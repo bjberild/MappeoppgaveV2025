@@ -141,6 +141,7 @@ public class Board {
     }
   }
 
+
   public void addFallTrapActionTiles(int numTraps) {
     Random rand = new Random();
     for (int i = 0; i < numTraps; i++) {
@@ -152,7 +153,5 @@ public class Board {
       tiles.get(from).setAction(new FallTrapAction(tiles.get(to)));
     }
   }
-
-
-
 }
+

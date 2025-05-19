@@ -19,6 +19,7 @@ public class BoardView extends Region {
 
     public BoardView(Board board, TileCellFactory cellFactory) {
         this.cellFactory = cellFactory;
+        
         grid  = new GridPane();
 
         for (int i = 0; i < COLUMNS; i++) {
@@ -39,6 +40,8 @@ public class BoardView extends Region {
 
         while (current != null && row >= 0) {
         Node cell = cellFactory.createCell(current, 0, 0);
+        cell.getStyleClass().add("tile");
+        cell.setId("tile-" + current.getId());
             if (leftToRight) {
                 grid.add(cell, col, row);
             } else {
