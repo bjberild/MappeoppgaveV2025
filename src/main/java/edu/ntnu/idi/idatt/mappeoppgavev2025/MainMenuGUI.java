@@ -59,6 +59,7 @@ public class MainMenuGUI extends Application {
         primaryStage.show();
     }
 
+
     public static void main(String[] args) {
         launch(args);
     }
