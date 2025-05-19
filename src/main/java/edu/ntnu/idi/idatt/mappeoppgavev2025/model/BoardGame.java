@@ -1,10 +1,22 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import edu.ntnu.idi.idatt.mappeoppgavev2025.event.GameEventListener;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.CsvPlayerPersistence;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistenceException;
+
+
 
 public class BoardGame {
 
@@ -14,6 +26,22 @@ public class BoardGame {
   private Dice dice;
   private Player winner;
   private int currentPlayerIndex = 0;
+
+  public void loadBoard(Path jsonFile) throws IOException {
+    String text = Files.readString(jsonFile);
+    JsonObject json = JsonParser.parseString(text).getAsJsonObject();
+    Board loaded = new GsonBoardPersistence().deserialize(json);
+    this.board = loaded;
+  }
+
+  public void loadPlayers(Path csvFile) throws PlayerPersistenceException {
+    var loaded = new CsvPlayerPersistence().load(csvFile);
+    players.clear();
+    for (Player p : loaded) {
+      addPlayer(p);
+    }
+  }
+
 
   public void addEventListener(GameEventListener listener) {
     listeners.add(listener);
@@ -25,6 +53,7 @@ public class BoardGame {
     board.addFallTrapActionTiles(3);
     board.addPortalActionTiles(3);
   }
+  
 
   public void createDice(int numberOfDice) {
     dice = new Dice(numberOfDice);
