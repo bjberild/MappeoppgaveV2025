@@ -14,7 +14,8 @@ public class SnakesAndLaddersView extends GameView {
     protected Node createBoardPane() {
         boardView = new BoardView(
             game.getBoard(),
-            new DefaultTileCellFactory()
+            new DefaultTileCellFactory(),
+            game.getPlayers()
         );
         return boardView;
     }

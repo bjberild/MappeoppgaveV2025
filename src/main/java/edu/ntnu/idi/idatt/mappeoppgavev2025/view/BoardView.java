@@ -1,13 +1,22 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.TileCellFactory;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 
 public class BoardView extends Region {
     private static final int COLUMNS = 10;
@@ -15,12 +24,12 @@ public class BoardView extends Region {
 
     private final GridPane grid;
     private final TileCellFactory cellFactory;
+    private final Map<Player, ImageView> tokenMap = new HashMap<>();
 
 
-    public BoardView(Board board, TileCellFactory cellFactory) {
+    public BoardView(Board board, TileCellFactory cellFactory, List<Player> players) {
         this.cellFactory = cellFactory;
-        
-        grid  = new GridPane();
+        grid             = new GridPane();
 
         for (int i = 0; i < COLUMNS; i++) {
             ColumnConstraints cc = new ColumnConstraints();
@@ -37,31 +46,62 @@ public class BoardView extends Region {
         int row = ROWS - 1;
         int col = 0;
         boolean leftToRight = true;
-
         while (current != null && row >= 0) {
-        Node cell = cellFactory.createCell(current, 0, 0);
-        cell.getStyleClass().add("tile");
-        cell.setId("tile-" + current.getId());
-            if (leftToRight) {
-                grid.add(cell, col, row);
-            } else {
-                grid.add(cell, COLUMNS - 1 - col, row);
-            }
+            Node cell = cellFactory.createCell(current, 0, 0);
+            cell.getStyleClass().add("tile");
+            cell.setId("tile-" + current.getId());
+
+            int gridCol = leftToRight ? col : COLUMNS - 1 - col;
+            grid.add(cell, gridCol, row);
+
             col++;
-            if (col >= COLUMNS) {
+            if (col == COLUMNS) {
                 col = 0;
                 row--;
                 leftToRight = !leftToRight;
             }
             current = current.getNextTile();
         }
+
+        for (Player p : players) {
+            ImageView token = new ImageView(
+                new Image(getClass().getResourceAsStream(
+                    "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/tokens/" 
+                    + p.getToken() + ".png"
+              )
+            ));
+            token.setFitWidth(30);
+            token.setFitHeight(30);
+            tokenMap.put(p, token);
+
+            StackPane startPane = lookupCellPane(p.getCurrentTile().getId());
+            startPane.getChildren().add(token);
+
+        }
         getChildren().add(grid);
     }
 
     @Override
     protected void layoutChildren() {
-        super.layoutChildren();
         grid.resizeRelocate(0, 0, getWidth(), getHeight());
+    }
+
+    private StackPane lookupCellPane(int tileId) {
+        Node n = grid.lookup("#tile-" + tileId);
+        if (!(n instanceof StackPane)) {
+            throw new IllegalStateException("Tile cell is not a StackPane: " + n);
+        }
+        return (StackPane) n;
+    }
+
+    public void movePlayerToken(Player p, int fromId, int toID) {
+        ImageView token = tokenMap.get(p);
+        StackPane from  = lookupCellPane(fromId);
+        StackPane to    = lookupCellPane(toID);
+        if (token != null) {
+            from.getChildren().remove(token);
+            to.getChildren().add(token);
+        }
     }
     
 }
