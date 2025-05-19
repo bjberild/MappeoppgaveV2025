@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.event.GameEventListener;
 
@@ -58,14 +59,23 @@ public class BoardGame {
     int rollResult = dice.roll();
     notifyEvent("Player " + currentPlayer.getName() + " rolled " + rollResult);
 
-    Tile currentTile = currentPlayer.getCurrentTile();
-    Tile newTile = board.getTileAfter(currentTile, rollResult);
-    currentPlayer.moveToTile(newTile);
-    
-    int landed = currentPlayer.getCurrentTile().getId();
-    notifyEvent("Player " + currentPlayer.getName() + " landed on tile " + landed);
+    Tile oldTile = currentPlayer.getCurrentTile();
 
-    if (newTile.isFinalTile()) {
+    Tile steppedTile = board.getTileAfter(oldTile, rollResult);
+    currentPlayer.setCurrentTile(steppedTile);
+    notifyEvent(String.format(
+        "Player %s moved from tile %d to tile %d", 
+        currentPlayer.getName(),
+        oldTile.getId(), steppedTile.getId()
+    ));
+
+    Optional<String> actrionMsg = steppedTile.triggerAction(currentPlayer);
+    actrionMsg.ifPresent(this::notifyEvent);
+
+    int finalId = currentPlayer.getCurrentTile().getId();
+    notifyEvent("Player " + currentPlayer.getName() + " is now on tile " + finalId);
+
+    if (currentPlayer.getCurrentTile().isFinalTile()) {
       winner = currentPlayer;
       notifyEvent("Player " + currentPlayer.getName() + " won the game!");
     } else {

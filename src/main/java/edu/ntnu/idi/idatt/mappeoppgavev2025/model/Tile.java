@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
+import java.util.Optional;
+
 public class Tile {
 
   private final int id;
@@ -10,10 +12,11 @@ public class Tile {
     this.id = id;
   }
 
-  public void triggerAction(Player player) {
+  public Optional<String> triggerAction(Player player) {
     if (action != null) {
-      action.execute(player);
+      return action.execute(player);
     }
+    return Optional.empty();
   }
 
   public void setAction(TileAction action) {

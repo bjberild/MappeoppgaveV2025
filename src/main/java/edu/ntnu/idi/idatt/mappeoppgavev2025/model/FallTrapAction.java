@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
+import java.util.Optional;
+
 public class FallTrapAction implements TileAction {
     private final Tile destination;
     public FallTrapAction(Tile destination) {
@@ -10,7 +12,11 @@ public class FallTrapAction implements TileAction {
     }
     
     @Override
-    public void execute(Player player) {
+    public Optional<String> execute(Player player) {
+        int from = player.getCurrentTile().getId();
         player.setCurrentTile(destination);
-    }
+        return Optional.of(
+            String.format("player %s fell form %d to %d",
+                player.getName(), from, destination.getId()));
+    }   
 }

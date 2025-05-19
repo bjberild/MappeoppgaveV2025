@@ -26,7 +26,7 @@ public class TileHighlighter implements GameEventListener {
       source.getStyleClass().add("highlight-source");
       dest.getStyleClass().add("highlight-dest");
 
-      PauseTransition pause = new PauseTransition(Duration.seconds(1));
+      PauseTransition pause = new PauseTransition(Duration.seconds(3));
       pause.setOnFinished(e -> {
         source.getStyleClass().remove("highlight-source");
         dest  .getStyleClass().remove("highlight-dest");

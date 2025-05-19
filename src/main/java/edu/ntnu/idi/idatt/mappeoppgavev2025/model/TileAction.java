@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.model;
 
+import java.util.Optional;
 public interface TileAction {
 
-  void execute(Player player);
+  Optional<String> execute (Player player);
 }

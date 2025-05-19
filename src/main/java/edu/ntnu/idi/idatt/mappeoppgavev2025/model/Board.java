@@ -82,24 +82,6 @@ public class Board {
     }
   }
 
-  /**
-   * Creates a standard board with a given number of tiles.
-   * The tiles are numbered from 1 to {@code numTiles}.
-   * The first tile is the start tile, and the last tile is the end tile.
-   * @param numTiles The number of tiles to create.
-   */
-  public void addLadderActionTiles(int numTiles) {
-    for (int i = 0; i < numTiles; i++) {
-      int startTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
-      int endTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
-      while (startTileIndex == endTileIndex) {
-        endTileIndex = (rand.nextInt(tiles.size() - 2)) + 1;
-      }
-      Tile startTile = tiles.get(startTileIndex);
-      TileAction action = new LadderAction(tiles.get(endTileIndex));
-      startTile.setAction(action);
-    }
-  }
 
   // --- navigation methods -----------------
 
