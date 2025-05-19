@@ -18,7 +18,7 @@ public class DefaultTileCellFactory implements TileCellFactory {
         StackPane cell = new StackPane();
         cell.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         
-        cell.setStyle("-fx-background-color: ligjtgray; -fx-border-color: black;");
+        cell.getStyleClass().add("tile");
 
         TileAction act = tile.getAction();
         String iconPath = null; 

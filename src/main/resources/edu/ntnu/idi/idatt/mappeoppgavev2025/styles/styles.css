@@ -3,6 +3,14 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: stretch;
     -fx-background-position: center;
+
+    
+}
+
+.tile {
+    -fx-background-color: lightgray;
+    -fx-border-color: black;
+    -fx-border-width: 1;
 }
 
 .tile.highlight-source {
