@@ -1,5 +1,5 @@
 .root {
-    -fx-background-image: url("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.png");
+    -fx-background-image: url("../images/Jungle-Background.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
     -fx-background-position: center center;
