@@ -16,7 +16,7 @@ public class FallTrapAction implements TileAction {
         int from = player.getCurrentTile().getId();
         player.setCurrentTile(destination);
         return Optional.of(
-            String.format("player %s fell form %d to %d",
+            String.format("player %s fell from %d to %d",
                 player.getName(), from, destination.getId()));
     }   
 }

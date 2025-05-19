@@ -125,15 +125,17 @@ public class Board {
     
 
   public void addFallTrapActionTiles(int numTraps) {
-    Random rand = new Random();
+    int lastIndex = tiles.size() - 1;
+
     for (int i = 0; i < numTraps; i++) {
-      int from = rand.nextInt(tiles.size() - 2) + 1;
-      int to = rand.nextInt(tiles.size() - 1) + 1;
-      while (to >= from) {
-        to = rand.nextInt(tiles.size() - 1) + 1;
-      }
+      int from = rand.nextInt(lastIndex) + 1;
+      if (from == lastIndex) from = lastIndex -1;
+
+      int to = rand.nextInt(from);
       tiles.get(from).setAction(new FallTrapAction(tiles.get(to)));
     }
   }
 }
+    
+
 
