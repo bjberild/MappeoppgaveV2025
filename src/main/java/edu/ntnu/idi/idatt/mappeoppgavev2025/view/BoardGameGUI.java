@@ -2,16 +2,9 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.CsvPlayerPersistence;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistenceException;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -35,10 +28,7 @@ public class BoardGameGUI {
         File boardFile = boardChooser.showOpenDialog(stage);
         if (boardFile != null) {
             try {
-              String jsonText = java.nio.file.Files.readString(boardFile.toPath());
-              JsonObject boardJson = JsonParser.parseString(jsonText).getAsJsonObject();
-              Board loaded = new GsonBoardPersistence().deserialize(boardJson);
-              game.setBoard(loaded);  
+                game.loadBoard(boardFile.toPath());
             } catch (IOException | IllegalArgumentException e) {
                 showError("Error, failed to load board from JSON:\n" + e.getMessage());
             }
@@ -51,12 +41,11 @@ public class BoardGameGUI {
         File csvFile = csvChooser.showOpenDialog(stage);
         if (csvFile != null) {
             try {
-                List<Player> players = new CsvPlayerPersistence().load(csvFile.toPath());
-                players.forEach(game::addPlayer);
+                game.loadPlayers(csvFile.toPath());
             } catch (PlayerPersistenceException e) {
                 showError("Error, failed to load players from CSV:\n" + e.getMessage());
                 addDefaultPlayersAndBoard(game);
-            }
+            }   
         } else {
             addDefaultPlayersAndBoard(game);
         }
