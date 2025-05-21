@@ -114,7 +114,8 @@ public class BoardView extends Region {
     public void refreshTile(int tileId) {
         StackPane pane = tilePaneMap.get(tileId);
         if (pane == null) return;
-        pane.getChildren().removeIf(node -> node instanceof ImageView);
+
+        pane.getChildren().removeIf(node -> node instanceof ImageView && tokenMap.containsValue(node));
 
         var onTile = getPlayersOnTile(tileId);
         for (int i = 0; i < onTile.size(); i++) {
