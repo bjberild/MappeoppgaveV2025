@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +9,8 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.TileCellFactory;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.tokens.TokenIconFactory;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -25,11 +24,13 @@ public class BoardView extends Region {
 
     private final GridPane grid;
     private final TileCellFactory cellFactory;
+    private final TokenIconFactory tokenFactory;
     private final Map<Player, ImageView> tokenMap = new HashMap<>();
 
 
-    public BoardView(Board board, TileCellFactory cellFactory, List<Player> players) {
+    public BoardView(Board board, TileCellFactory cellFactory, List<Player> players, TokenIconFactory tokenFactory) {
         this.cellFactory = cellFactory;
+        this.tokenFactory = tokenFactory;
         grid             = new GridPane();
 
         for (int i = 0; i < COLUMNS; i++) {
@@ -43,10 +44,11 @@ public class BoardView extends Region {
             grid.getRowConstraints().add(rc);
         }
         
-        Tile current = board.getStartTile();
-        int row = ROWS - 1;
-        int col = 0;
+        Tile current        = board.getStartTile();
+        int row             = ROWS - 1;
+        int col             = 0;
         boolean leftToRight = true;
+
         while (current != null && row >= 0) {
             Node cell = cellFactory.createCell(current, 0, 0);
             cell.getStyleClass().add("tile");
@@ -65,15 +67,9 @@ public class BoardView extends Region {
         }
 
         for (Player p : players) {
-            String tokenName = p.getToken().trim();
-            String path      = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/tokens/" + tokenName + ".png";
-            InputStream in   = getClass().getResourceAsStream(path);
-            if (in == null) {
-                throw new IllegalArgumentException("Token image not found: " + path);
-            }
-            ImageView tokenIcon = new ImageView(new Image(in));
-            tokenIcon.setFitWidth(30);
-            tokenIcon.setFitHeight(30);
+            ImageView tokenIcon = tokenFactory.createIcon(p.getToken().trim());
+            tokenIcon.setFitWidth(40);
+            tokenIcon.setFitHeight(40);
             tokenMap.put(p, tokenIcon);
 
             StackPane startPane = lookupCellPane(p.getCurrentTile().getId());
