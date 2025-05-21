@@ -33,8 +33,10 @@ public class ConnectFourBoard {
     }
   }
 
-  public void move(int x, ConnectFourPiece player) {
-    assert(x >= 0 && x < getColumns());
+  public boolean move(int x, ConnectFourPiece player) {
+    if ((x < 0 || x >= getColumns())) {
+      throw new IllegalArgumentException("Invalid X-ordinate: " + x);
+    }
 
     List<ConnectFourPiece> column = columns.get(x);
 
@@ -43,7 +45,62 @@ public class ConnectFourBoard {
     }
 
     column.add(player);
+
+    return checkWin(x, column.size() - 1, player);
   }
+
+  /* Check if the player has won by checking a line of 4 pieces
+   * in a given direction (xDiff, yDiff)
+   */
+  private boolean checkLine(int x1, int y1, int xDiff, int yDiff, ConnectFourPiece player) {
+    for (int i = 0; i < 4; ++i) {
+      int x = x1 + (xDiff * i);
+      int y = y1 + (yDiff * i);
+
+      if (x < 0 || x > columns.size() - 1) {
+        return false;
+      }
+
+      if (y < 0 || y > rows - 1) {
+        return false;
+      }
+
+      if (player != getCell(x, y)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+  /*   * Check if the player has won by checking all possible lines
+   * (vertical, horizontal, leading diagonal, trailing diagonal)
+   */
+  private boolean checkWin(int x, int y, ConnectFourPiece player) {
+    // Vertical line
+    if (checkLine(x, y, 0, -1, player)) {
+      return true;
+    }
+
+    for (int offset = 0; offset < 4; ++offset) {
+      // Horizontal line
+      if (checkLine(x - 3 + offset, y, 1, 0, player)) {
+        return true;
+      }
+
+      // Leading diagonal
+      if (checkLine(x - 3 + offset, y + 3 - offset, 1, -1, player)) {
+        return true;
+      }
+
+      // Trailing diagonal
+      if (checkLine(x - 3 + offset, y - 3 + offset, 1, 1, player)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 
   public int getRows() {
     return rows;
