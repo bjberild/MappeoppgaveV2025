@@ -66,7 +66,7 @@ public class BoardView extends Region {
 
         for (Player p : players) {
             String tokenName = p.getToken().trim();
-            String path      = "/edu/ntnu/idi/idatt/mappeoppgavev2025/view/tokens/" + tokenName + ".png";
+            String path      = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/tokens/" + tokenName + ".png";
             InputStream in   = getClass().getResourceAsStream(path);
             if (in == null) {
                 throw new IllegalArgumentException("Token image not found: " + path);
