@@ -21,10 +21,10 @@ public class ResourceTokenIconFactory implements TokenIconFactory {
         if (in == null) {
             throw new IllegalArgumentException("Token not found: " + path);
         }
-        
+
         ImageView iv = new ImageView(new Image(in));
-        iv.setFitWidth(30);
-        iv.setFitHeight(30);
+        iv.setFitWidth(50);
+        iv.setFitHeight(50);
         return iv;
     }
     

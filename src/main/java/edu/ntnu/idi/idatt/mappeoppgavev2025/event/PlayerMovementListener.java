@@ -1,11 +1,17 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.event;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardView;
 
 public class PlayerMovementListener implements GameEventListener {
+    private static final Pattern MOVE_PATTERN =
+            Pattern.compile("(?i)player\\s+(\\w+)\\s+(?:moved from tile|climbed from|fell from)\\s+(\\d+)\\s+to(?: tile)?\\s+(\\d+)");
+
+
     private final BoardView boardView;
     private final List<Player> players;
 
@@ -16,19 +22,19 @@ public class PlayerMovementListener implements GameEventListener {
 
     @Override
     public void onGameEvent(String message) {
-        if (message.startsWith("Player ") && message.contains(" moved from tile ")) {
-            String[] parts = message.split(" ");
-            String playerName = parts[1];
-            int from = Integer.parseInt(parts[5]);
-            int to   = Integer.parseInt(parts[8]);
+        Matcher m = MOVE_PATTERN.matcher(message);
+        if (!m.find()) return;
 
-            players.stream()
-                   .filter(p -> p.getName().equals(playerName))
-                   .findFirst()
-                   .ifPresent(p -> boardView.movePlayerToken(p, from, to));
+        String playerName = m.group(1);
+        int fromTile = Integer.parseInt(m.group(2));
+        int toTile = Integer.parseInt(m.group(3));
 
-            
-        }
+        players.stream()
+                .filter(player -> player.getName().equals(playerName))
+                .findFirst()
+                .ifPresent(p -> {
+                    boardView.refreshTile(fromTile);
+                    boardView.refreshTile(toTile);
+                });
     }
-    
 }
