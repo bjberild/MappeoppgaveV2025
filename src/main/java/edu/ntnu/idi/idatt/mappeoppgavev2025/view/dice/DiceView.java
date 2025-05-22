@@ -22,7 +22,7 @@ public class DiceView extends VBox implements GameEventListener {
     
     private final ImageView die1 = new ImageView();
     private final ImageView die2 = new ImageView();
-    private final Button rollButton = new Button("Roll Dice");
+    private final Button rollButton = new Button("Roll Dice for next player");
     private final Label resultLabel = new Label("Roll: -");
     private final PlayerController ctrl;
     
