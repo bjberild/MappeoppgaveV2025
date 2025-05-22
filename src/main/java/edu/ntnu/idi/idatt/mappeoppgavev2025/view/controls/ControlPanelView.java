@@ -3,20 +3,21 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.PlayerController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistenceException;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 
 
 public class ControlPanelView extends VBox {
     private final TextArea eventArea = new TextArea();
-    private final Button nextRound= new Button("Next Round");
     private final Button savePlayers = new Button("Save Players");
     private final Button restart      = new Button("Restart Game");
 
@@ -31,24 +32,21 @@ public class ControlPanelView extends VBox {
         eventArea.setEditable(false);
         eventArea.setPrefHeight(100);
 
-        nextRound.setOnAction(e -> playerCtrl.playOneRound());
         savePlayers.setOnAction(e -> onSavePlayers(playerCtrl.getPlayers()));
         restart.setOnAction(e -> {
             playerCtrl.resetGame();
             eventArea.clear();
-            nextRound.setDisable(false);
             restart.setDisable(true);
         });
 
    
     
         restart.setDisable(true);
-        getChildren().addAll(eventArea, nextRound, savePlayers, restart);
+        getChildren().addAll(eventArea, savePlayers, restart);
 
         playerCtrl.getGame().addEventListener(msg -> {
             eventArea.appendText(msg + "\n");
             if (msg.contains("won the game")) {
-                nextRound.setDisable(true);
                 restart.setDisable(false);
             }
         });
