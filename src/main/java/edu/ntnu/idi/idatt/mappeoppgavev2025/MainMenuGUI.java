@@ -24,8 +24,8 @@ public class MainMenuGUI extends Application {
 
         Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
         ImageView backgroundView = new ImageView(gifImage);
-        backgroundView.setFitWidth(800);
-        backgroundView.setFitHeight(700);
+        backgroundView.setFitWidth(2000);
+        backgroundView.setFitHeight(1750);
         backgroundView.setPreserveRatio(true);
 
         Button snlB = new Button("Snakes and Ladders");
@@ -43,7 +43,7 @@ public class MainMenuGUI extends Application {
 
         c4MenuBtn.setOnAction(e -> {
             ConnectFourBoard c4board = new ConnectFourBoard();
-            ConnectFourGameView c4view = new ConnectFourGameView(); // Pass null temporarily
+            ConnectFourGameView c4view = new ConnectFourGameView();
             ConnectFourController c4controller = new ConnectFourController(c4view, c4board);
             Scene gameScene = c4controller.getScene();
             primaryStage.setScene(gameScene);

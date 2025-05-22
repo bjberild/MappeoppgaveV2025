@@ -9,6 +9,7 @@ public class ConnectFourController {
   private final ConnectFourGameView view;
   private final ConnectFourBoard board;
   private ConnectFourPiece currentPlayer;
+  boolean winCon = false;
 
   public ConnectFourController(ConnectFourGameView view, ConnectFourBoard board) {
     this.view = view;
@@ -18,19 +19,18 @@ public class ConnectFourController {
     // Register event handlers for each button
     for (int col = 0; col < board.getColumns(); col++) {
       int column = col; // Capture column index for lambda
-      view.setButtonEventHandler(column, e -> handleMove(column));
+      view.setDropButtonEventHandler(column, e -> handleMove(column));
     }
   }
 
   public void handleMove(int col) {
-    boolean winCon;
     try {
       winCon = board.move(col, currentPlayer);
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
       return; // Exit if the move is invalid
     }
-    view.updateCell(board.getRows() + 1 -board.getCurrentRow(col), col, currentPlayer);
+    view.updateCell(board.getRows()-board.getCurrentRow(col), col, currentPlayer);
     if (winCon) {
       // Handle win condition
       System.out.println("Player " + currentPlayer + " wins!");

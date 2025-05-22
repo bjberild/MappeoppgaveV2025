@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
-import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourPiece;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -17,6 +16,7 @@ public class ConnectFourGameView {
   private final GridPane grid;
   private final int ROWS = 6;
   private final int COLUMNS = 7;
+  private final Button returnButton = new Button("Return to Main Menu");
 
   public ConnectFourGameView() {
     this.grid = new GridPane();
@@ -46,11 +46,15 @@ public class ConnectFourGameView {
     }
   }
 
-  public void setButtonEventHandler(int column, EventHandler<ActionEvent> handler) {
+  public void setDropButtonEventHandler(int column, EventHandler<ActionEvent> handler) {
     Button button = (Button) getNodeFromGridPane(grid, column, 0); // Buttons are in the first row
     if (button != null) {
       button.setOnAction(handler);
     }
+  }
+
+  public void setReturnButtonHandler(EventHandler<ActionEvent> handler) {
+    returnButton.setOnAction(handler);
   }
 
   private Circle createCell() {
@@ -61,7 +65,7 @@ public class ConnectFourGameView {
   }
 
   public void updateCell(int row, int col, ConnectFourPiece piece) {
-    Circle cell = (Circle) getNodeFromGridPane(grid, col, row);
+    Circle cell = (Circle) getNodeFromGridPane(grid, col, row+1); // Adjust for button row
     if (piece == ConnectFourPiece.PLAYER_1) {
       cell.setFill(Color.RED);
     } else if (piece == ConnectFourPiece.PLAYER_2) {
@@ -79,7 +83,7 @@ public class ConnectFourGameView {
   }
 
   public Scene getScene() {
-    VBox layout = new VBox(10, grid);
+    VBox layout = new VBox(10, grid, returnButton);
     layout.setAlignment(Pos.CENTER);
 
     return new Scene(layout, 800, 600);
