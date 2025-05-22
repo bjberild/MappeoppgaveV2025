@@ -41,6 +41,7 @@ public class BoardGame {
       addPlayer(p);
     }
   }
+  
 
 
   public void addEventListener(GameEventListener listener) {
@@ -84,33 +85,33 @@ public class BoardGame {
       return;
     }
 
-    Player currentPlayer = players.get(currentPlayerIndex);
-    int rollResult = dice.roll();
-    notifyEvent("Player " + currentPlayer.getName() + " rolled " + rollResult);
+    Player current = players.get(currentPlayerIndex);
+    var faces = dice.rollAll();
+    notifyEvent(String.format("Players %s rolled %d and %d", 
+        current.getName(), faces.get(0), faces.get(1)));
 
-    Tile oldTile = currentPlayer.getCurrentTile();
+    int total = faces.stream().mapToInt(i -> i).sum();
+    notifyEvent("Total roll: " + total);
 
-    Tile steppedTile = board.getTileAfter(oldTile, rollResult);
-    currentPlayer.setCurrentTile(steppedTile);
+    Tile oldTile = current.getCurrentTile();
+    Tile newTile = board.getTileAfter(oldTile, total);
+    current.setCurrentTile(newTile);
     notifyEvent(String.format(
-        "Player %s moved from tile %d to tile %d", 
-        currentPlayer.getName(),
-        oldTile.getId(), steppedTile.getId()
-    ));
+      "Player %s moved from tile %d to tile %d",
+      current.getName(), oldTile.getId(), newTile.getId()));
 
-    Optional<String> actrionMsg = steppedTile.triggerAction(currentPlayer);
-    actrionMsg.ifPresent(this::notifyEvent);
+      Optional<String> actionMsg = newTile.triggerAction(current);
+      actionMsg.ifPresent(this::notifyEvent);
 
-    int finalId = currentPlayer.getCurrentTile().getId();
-    notifyEvent("Player " + currentPlayer.getName() + " is now on tile " + finalId);
+      notifyEvent("PLayers " + current.getName() + " is now on tile " + current.getCurrentTile().getId());
 
-    if (currentPlayer.getCurrentTile().isFinalTile()) {
-      winner = currentPlayer;
-      notifyEvent("Player " + currentPlayer.getName() + " won the game!");
-    } else {
-      currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-      startNextTurn();
-    }
+      if (current.getCurrentTile().isFinalTile()) {
+        winner = current;
+        notifyEvent("Player " + current.getName() + " won the game!");
+      } else {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        startNextTurn();
+      }
   }
 
   public boolean isFinished() {
@@ -142,7 +143,7 @@ public class BoardGame {
 
   public void reset() {
     Tile start = board.getStartTile();
-    for (Player p : players) {
+    for (var p : players) {
       p.setCurrentTile(start);
     }
     winner = null;
