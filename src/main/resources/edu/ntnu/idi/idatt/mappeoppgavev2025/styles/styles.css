@@ -15,17 +15,23 @@
     -fx-border-color: yellow;
     -fx-border-width: 3px;
 }
-.tile.highlight-dest {
-    -fx-border-color: red;
-    -fx-border-width: 3px;
-}
 
 .tile.highlight-portal {
     -fx-border-color: green;
     -fx-border-width: 3px;
 }
 
-.tile.highlight-portal {
+.tile.highlight-dest-portal  {
+    -fx-border-color: green;
+    -fx-border-width: 3px;
+}
+
+.tile.highlight-trap {
+    -fx-border-color: red;
+    -fx-border-width: 3px;
+}
+
+.tile.highlight-dest-trap  {
     -fx-border-color: red;
     -fx-border-width: 3px;
 }

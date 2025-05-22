@@ -14,8 +14,8 @@ public class TileHighlighter implements GameEventListener {
 
     @Override
     public void onGameEvent(String message) {
-      boolean isPortal = message.contains("cimbed");
-      boolean isTrap   = message.contains("fell");
+      boolean isPortal = message.toLowerCase().contains("climbed");
+      boolean isTrap   = message.toLowerCase().contains("fell");
       if (!isPortal && !isTrap) return; 
 
       String[] parts = message.split(" ");
@@ -25,15 +25,17 @@ public class TileHighlighter implements GameEventListener {
       Node source = boardView.lookup("#tile-" + from);
       Node dest   = boardView.lookup("#tile-" + to);
       if (source == null || dest == null) return;
+
+      String styleClass = isPortal ? "highlight-portal" : "highlight-trap";
       
-      String styleClass = isPortal ? "highlight-source" : "highlight-trap";
+
       source.getStyleClass().add(styleClass);
       dest  .getStyleClass().add(styleClass);
 
       PauseTransition pause = new PauseTransition(Duration.seconds(5));
       pause.setOnFinished(e -> {
-        source.getStyleClass().remove(styleClass);
-        dest  .getStyleClass().remove(styleClass);
+          source.getStyleClass().remove(styleClass);
+          dest  .getStyleClass().remove(styleClass);
       });
       pause.play();
   }
