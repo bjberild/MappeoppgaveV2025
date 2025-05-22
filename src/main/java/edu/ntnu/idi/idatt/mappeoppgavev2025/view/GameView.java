@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.PlayerController;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls.ControlPanelView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.dice.DiceView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.players.PlayerView;
@@ -16,13 +15,13 @@ import javafx.scene.layout.StackPane;
 
 
 
-
 public abstract class GameView extends BackgroundPane {
-    protected final BoardGame game;
+    protected final PlayerController ctrl;
 
-    public GameView(BoardGame game) {
+    public GameView(PlayerController ctrl) {
         super("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.png");
-        this.game = game;
+        this.ctrl = ctrl;
+        setPadding(new Insets(10));
         layoutParts();
     }
     protected abstract Node createBoardPane();
@@ -30,16 +29,15 @@ public abstract class GameView extends BackgroundPane {
 
     private void layoutParts() {
         setTop(new TitleBar(getTitleImage()));
-        setLeft(new PlayerView(game.getPlayers()));
-        setRight(new DiceView());
+        setLeft(new PlayerView(ctrl.getPlayers()));
+        setRight(new DiceView(ctrl));
 
         StackPane center = new StackPane(createBoardPane());
         center.setAlignment(Pos.CENTER);
         setCenter(center);
         BorderPane.setMargin(center, new Insets(0, 20, 0, 20));
 
-        PlayerController playerCtrl = new PlayerController(game);
-        setBottom(new ControlPanelView(playerCtrl));
+        setBottom(new ControlPanelView(ctrl));
     }
 
     public Scene toScene(int w, int h) {

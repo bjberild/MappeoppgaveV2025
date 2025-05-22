@@ -87,7 +87,7 @@ public class BoardGame {
 
     Player current = players.get(currentPlayerIndex);
     var faces = dice.rollAll();
-    notifyEvent(String.format("Players %s rolled %d and %d", 
+    notifyEvent(String.format("Player %s rolled %d and %d", 
         current.getName(), faces.get(0), faces.get(1)));
 
     int total = faces.stream().mapToInt(i -> i).sum();
@@ -103,7 +103,7 @@ public class BoardGame {
       Optional<String> actionMsg = newTile.triggerAction(current);
       actionMsg.ifPresent(this::notifyEvent);
 
-      notifyEvent("PLayers " + current.getName() + " is now on tile " + current.getCurrentTile().getId());
+      notifyEvent("Players " + current.getName() + " is now on tile " + current.getCurrentTile().getId());
 
       if (current.getCurrentTile().isFinalTile()) {
         winner = current;
