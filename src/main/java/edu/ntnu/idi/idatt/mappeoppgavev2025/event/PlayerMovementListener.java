@@ -11,16 +11,18 @@ import javafx.util.Duration;
 
 public class PlayerMovementListener implements GameEventListener {
     private static final Pattern STEP_MOVE =
-            Pattern.compile("(?i)player\\s+(\\w+)\\s+moved from tile\\s+(\\d+)\\s+to tile\\s+(\\d+)");
+            Pattern.compile("(?i)player\\s+(\\w+)\\s+moved from tile\\s+(\\d+)\\s+to(?: tile)?\\s+(\\d+)");
     
     private static final Pattern TELEPORT_MOVE = 
             Pattern.compile("(?i)player\\s+(\\w+)\\s+(?:climbed from|fell from)\\s+(\\d+)\\s+to\\s+(\\d+)");
 
     private final TokenAnimator animator;
     private final List<Player> players;
+    private final BoardView boardView;
 
     public PlayerMovementListener(BoardView boardView, List<Player> players) {
         this.players   = players;
+        this.boardView = boardView;
         this.animator = new TokenAnimator(boardView, Duration.millis(150));
     }
 
@@ -31,12 +33,13 @@ public void onGameEvent(String message) {
     var tpMatcher = TELEPORT_MOVE.matcher(message);
     if (tpMatcher.find()) {
         String playerName = tpMatcher.group(1);
-        int destTile       = Integer.parseInt(tpMatcher.group(3));
+        int fromTile      = Integer.parseInt(tpMatcher.group(2));
+        int toTile       = Integer.parseInt(tpMatcher.group(3));
 
         players.stream()
                .filter(p -> p.getName().equals(playerName))
                .findFirst()
-               .ifPresent(p -> animator.animateTeleport(p, destTile));
+               .ifPresent(p -> animator.animateTeleport(p, fromTile, toTile));
         return;
     }
 

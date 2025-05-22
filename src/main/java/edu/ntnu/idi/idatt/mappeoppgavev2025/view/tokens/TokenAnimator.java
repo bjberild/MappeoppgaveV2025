@@ -41,13 +41,21 @@ public class TokenAnimator {
                 e -> boardView.playerTokenOnTile(icon, tileId)
             ));
         }
+        t1.setOnFinished(e -> {
+            boardView.refreshTile(fromTile);
+            int actualDest = player.getCurrentTile().getId();
+            boardView.refreshTile(actualDest);
+        });
         t1.play();
     }
 
-    public void animateTeleport (Player player, int destTile) {
+    public void animateTeleport (Player player, int fromTile, int toTile) {
         ImageView icon = boardView.getTokenIcon(player);
         if (icon == null) return;
-        boardView.playerTokenOnTile(icon, destTile);
+        boardView.playerTokenOnTile(icon, toTile);
+        boardView.refreshTile(fromTile);
+        boardView.refreshTile(toTile);
+
 
     }
 }
