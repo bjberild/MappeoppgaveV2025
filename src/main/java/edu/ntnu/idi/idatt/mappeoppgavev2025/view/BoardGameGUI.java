@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.PlayerController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.event.PlayerMovementListener;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.event.TileHighlighter;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
@@ -25,7 +26,11 @@ public class BoardGameGUI {
         Path boardPath = null;
         try {
             boardPath = BoardLoader.promtForBoard(stage);
-        } catch (IOException e) { 
+        } catch (IOException e) {
+            // Ignore "No file selected" (user cancelled). Show error for others.
+            if (!"No file selected".equals(e.getMessage())) {
+                showError("Error loading board:\n" + e.getMessage());
+            }
         }
         if (boardPath != null) {
             try {
@@ -42,8 +47,12 @@ public class BoardGameGUI {
             showError("Error loading players:\n" + e.getMessage());
             PlayerLoader.addDefaultPlayers(game);
         }
+        
+        PlayerController pc = new PlayerController(game);
 
-        SnakesAndLaddersView view = new SnakesAndLaddersView(game);
+        SnakesAndLaddersView view = new SnakesAndLaddersView(pc);
+
+        
         game.addEventListener(new TileHighlighter(view.getBoardView()));
         game.addEventListener(new PlayerMovementListener(view.getBoardView(), game.getPlayers()));
 

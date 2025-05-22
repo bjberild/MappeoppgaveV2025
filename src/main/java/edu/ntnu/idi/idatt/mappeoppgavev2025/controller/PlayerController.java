@@ -40,5 +40,9 @@ public class PlayerController {
     public void resetGame() {
         game.reset();
     }
+
+    public void rollDice() {
+        game.rollDice();
+    }
    
 }
