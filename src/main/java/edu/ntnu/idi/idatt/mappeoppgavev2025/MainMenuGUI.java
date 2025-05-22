@@ -1,6 +1,10 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
