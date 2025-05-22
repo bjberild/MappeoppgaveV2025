@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
+
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
@@ -63,11 +64,6 @@ public class MainMenuGUI extends Application {
         primaryStage.show();
     }
 
-    /**
-     * Creates a button for the Connect Four game and sets its action.
-     * @return the Connect Four button
-     * @author bjberild
-     */
     private Button getC4Button() {
         Button c4MenuBtn = new Button("Connect Four");
 
