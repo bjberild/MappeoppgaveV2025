@@ -15,16 +15,30 @@ public class PlayerController {
         this.game = game;
     }
 
-    public void savePlayer(Path csvFile) throws PlayerPersistenceException {
-        List<Player> players = game.getPlayers();
-        new CsvPlayerPersistence().save(csvFile, players);
+    public void loadPlayers(Path csvFile) throws PlayerPersistenceException {
+        var loaded = new CsvPlayerPersistence().load(csvFile);
+        game.getPlayers().clear();
+       loaded.forEach(game::addPlayer);
     }
 
-    public void loadPlayers(Path csvFile) throws PlayerPersistenceException {
-        List<Player> loaded = new CsvPlayerPersistence().load(csvFile);
-        game.getPlayers().clear();
-        for (Player p : loaded) {
-            game.addPlayer(p);
-        }
+    public void savePlayers(Path csvFile) throws PlayerPersistenceException {
+        new CsvPlayerPersistence().save(csvFile, game.getPlayers());
     }
+
+    public List<Player> getPlayers() {
+        return game.getPlayers();
+    }
+
+    public BoardGame getGame() {
+        return game;
+    }
+
+    public void playOneRound() {
+        game.playOneRound();
+    }
+
+    public void resetGame() {
+        game.reset();
+    }
+   
 }

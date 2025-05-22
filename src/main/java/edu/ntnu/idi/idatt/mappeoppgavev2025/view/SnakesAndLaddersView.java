@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.BoardGame;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.DefaultPipPlacementStrategy;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.DefaultTileCellFactory;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.tokens.ResourceTokenIconFactory;
 import javafx.scene.Node;
@@ -17,7 +18,8 @@ public class SnakesAndLaddersView extends GameView {
             game.getBoard(),
             new DefaultTileCellFactory(),
             game.getPlayers(),
-            new ResourceTokenIconFactory()
+            new ResourceTokenIconFactory(),
+            new DefaultPipPlacementStrategy()
         );
         return boardView;
     }

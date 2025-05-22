@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.PipPlacementStrategy;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.board.TileCellFactory;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.tokens.TokenIconFactory;
 import javafx.geometry.Pos;
@@ -21,30 +22,28 @@ import javafx.scene.layout.StackPane;
 
 
 public class BoardView extends Region {
+    
     private static final int COLUMNS = 10;
     private static final int ROWS = 10;
 
     private final GridPane grid;
     private final TileCellFactory cellFactory;
     private final TokenIconFactory tokenFactory;
+    private final PipPlacementStrategy pipStrategy;
     private final List<Player> players;
     private final Map<Player, ImageView> tokenMap = new HashMap<>();
     private final Map<Integer, StackPane> tilePaneMap = new HashMap<>();
 
-    private static final Pos[] PIP_POSITIONS = {
-        Pos.CENTER,
-        Pos.CENTER_LEFT, Pos.CENTER_RIGHT,
-        Pos.TOP_LEFT, Pos.TOP_RIGHT, Pos.BOTTOM_CENTER,
-        Pos.TOP_LEFT, Pos.TOP_RIGHT, Pos.BOTTOM_LEFT, Pos.BOTTOM_RIGHT,
-        Pos.TOP_LEFT, Pos.TOP_RIGHT, Pos.BOTTOM_LEFT, Pos.BOTTOM_RIGHT, Pos.CENTER
-    };
+
     
     public BoardView(Board board, 
                      TileCellFactory cellFactory,
                      List<Player> players, 
-                     TokenIconFactory tokenFactory) {
+                     TokenIconFactory tokenFactory,
+                     PipPlacementStrategy pipStrategy) {
         this.cellFactory  = cellFactory;   
         this.tokenFactory = tokenFactory;
+        this.pipStrategy  = pipStrategy;
         this.players      = players;
         grid              = new GridPane();
 
@@ -90,9 +89,8 @@ public class BoardView extends Region {
             icon.setFitHeight(100);
             tokenMap.put(p, icon);
         }
-
         tilePaneMap.keySet().stream()
-            .filter(tileId -> !getPlayersOnTile(tileId).isEmpty())
+            .filter(this::hasPlayersOnTile)
             .forEach(this::refreshTile);
             
         getChildren().add(grid);
@@ -102,6 +100,10 @@ public class BoardView extends Region {
     @Override
     protected void layoutChildren() {
         grid.resizeRelocate(0, 0, getWidth(), getHeight());
+    }
+
+    private boolean hasPlayersOnTile(int tileId) {
+        return !getPlayersOnTile(tileId).isEmpty();
     }
 
     private List<Player> getPlayersOnTile(int tileId) {
@@ -131,23 +133,12 @@ public class BoardView extends Region {
         pane.getChildren().removeIf(node -> node instanceof ImageView && tokenMap.containsValue(node));
 
         var onTile = getPlayersOnTile(tileId);
+        var positions = pipStrategy.positionsFor(onTile.size());
         for (int i = 0; i < onTile.size(); i++) {
             Player p = onTile.get(i);
             ImageView icon = tokenMap.get(p);
             pane.getChildren().add(icon);
-            StackPane.setAlignment(icon, PIP_POSITIONS[getPipIndex(onTile.size(), i)]);
+            StackPane.setAlignment(icon, positions[i]);
         }
     }
-
-
-    private int getPipIndex(int numTokens, int idx) {
-        switch (numTokens) {
-            case 1: return 0;
-            case 2: return idx == 0 ? 1 : 2;
-            case 3: return idx;
-            case 4: return idx + 3;
-            case 5: return idx + 7;
-            default: throw new IllegalArgumentException("This amount of tokens is invalid: " + numTokens);
-        }
-    } 
 }
