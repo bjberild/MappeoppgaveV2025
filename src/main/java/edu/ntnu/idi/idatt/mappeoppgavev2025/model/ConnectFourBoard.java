@@ -16,6 +16,15 @@ public class ConnectFourBoard {
     }
   }
 
+  public ConnectFourBoard() {
+    this.rows = 6;
+    this.columns = new ArrayList<>();
+
+    for (int i = 0; i < 7; i++) {
+      this.columns.add(new ArrayList<>());
+    }
+  }
+
   public ConnectFourPiece getCell(int x, int y) {
     if ((x < 0 || x >= getColumns())) {
       throw new IllegalArgumentException("Invalid X-ordinate: " + x);
@@ -32,7 +41,12 @@ public class ConnectFourBoard {
       return null;
     }
   }
-
+  /*
+    * Add a piece to the board in the given column index
+    *
+    * @param x The column index
+    * @return true if the player has won, false otherwise
+   */
   public boolean move(int x, ConnectFourPiece player) {
     if ((x < 0 || x >= getColumns())) {
       throw new IllegalArgumentException("Invalid X-ordinate: " + x);
@@ -45,6 +59,8 @@ public class ConnectFourBoard {
     }
 
     column.add(player);
+
+    System.out.println("Added " + player + " to column " + (x+1) + ", row " + (column.size()));
 
     return checkWin(x, column.size() - 1, player);
   }
@@ -108,5 +124,18 @@ public class ConnectFourBoard {
 
   public int getColumns() {
     return columns.size();
+  }
+
+  public int getCurrentRow (int column) {
+    if (column < 0 || column >= getColumns()) {
+      throw new IllegalArgumentException("Invalid column index: " + column);
+    }
+    return columns.get(column).size();
+  }
+
+  public void reset() {
+    for (List<ConnectFourPiece> column : columns) {
+      column.clear();
+    }
   }
 }

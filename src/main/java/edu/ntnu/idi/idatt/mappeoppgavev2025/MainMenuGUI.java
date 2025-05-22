@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
+import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -26,7 +29,6 @@ public class MainMenuGUI extends Application {
         backgroundView.setPreserveRatio(true);
 
         Button snlB = new Button("Snakes and Ladders");
-        Button sogB = new Button("Some Other Game");
 
         snlB.setOnAction(e -> {
            BoardGameGUI launcher = new BoardGameGUI();
@@ -35,13 +37,22 @@ public class MainMenuGUI extends Application {
            primaryStage.setTitle("Snakes and Ladders");
            primaryStage.sizeToScene();
            primaryStage.centerOnScreen();
-
-
         });
 
-        sogB.setDisable(true);
+        Button c4MenuBtn = new Button("Connect Four");
 
-        VBox menuLayout = new VBox(10, snlB, sogB);
+        c4MenuBtn.setOnAction(e -> {
+            ConnectFourBoard c4board = new ConnectFourBoard();
+            ConnectFourGameView c4view = new ConnectFourGameView(); // Pass null temporarily
+            ConnectFourController c4controller = new ConnectFourController(c4view, c4board);
+            Scene gameScene = c4controller.getScene();
+            primaryStage.setScene(gameScene);
+            primaryStage.setTitle("Connect Four");
+            primaryStage.sizeToScene();
+            primaryStage.centerOnScreen();
+        });
+
+        VBox menuLayout = new VBox(10, snlB, c4MenuBtn);
         menuLayout.setPadding(new Insets(20));
 
         StackPane root = new StackPane();
