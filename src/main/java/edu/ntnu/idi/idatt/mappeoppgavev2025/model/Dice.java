@@ -14,12 +14,15 @@ public class Dice {
     }
   }
 
-  public int roll() {
-    int sum = 0;
-    for (Die die : dice) {
-      sum += die.roll();
+  public List<Integer> rollAll() {
+    List<Integer> results = new ArrayList<>();
+    for (Die d : dice) {
+      results.add(d.roll());
     }
-    return sum;
+    return results;
   }
 
+  public int roll() {
+    return rollAll().stream().mapToInt(i -> i).sum();
+  }
 }
