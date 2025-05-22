@@ -111,6 +111,19 @@ public class BoardView extends Region {
                       .collect(Collectors.toList());
     }
 
+    public ImageView getTokenIcon(Player player) {
+        return tokenMap.get(player);
+    }
+
+    public void playerTokenOnTile(ImageView icon, int tileId) {
+        tilePaneMap.values().forEach(pane -> pane.getChildren().remove(icon));
+        StackPane dest = tilePaneMap.get(tileId);
+        if (dest != null) {
+            dest.getChildren().add(icon);
+            StackPane.setAlignment(icon, Pos.CENTER);
+        }
+    } 
+
     public void refreshTile(int tileId) {
         StackPane pane = tilePaneMap.get(tileId);
         if (pane == null) return;
