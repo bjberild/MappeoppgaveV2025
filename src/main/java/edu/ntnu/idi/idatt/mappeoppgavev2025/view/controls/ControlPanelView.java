@@ -22,6 +22,7 @@ public class ControlPanelView extends VBox {
     private final TextArea eventArea = new TextArea();
     private final Button nextRoundButton = new Button("Next Round");
     private final Button savePlayersButton = new Button("Save Players");
+    private final Button restartButton      = new Button("Restart Game");
     
     public ControlPanelView(BoardGame game) {
         setPadding(new Insets(20));
@@ -31,13 +32,23 @@ public class ControlPanelView extends VBox {
 
         nextRoundButton.setOnAction(e -> game.playOneRound());
         savePlayersButton.setOnAction(e -> savePlayers(game.getPlayers()));
+        restartButton.setOnAction(e -> {
+            game.reset();
+            eventArea.clear();
+            nextRoundButton.setDisable(false);
+            restartButton.setDisable(true);
+        });
 
-        nextRoundButton.setDisable(game.getPlayers().isEmpty());
-        savePlayersButton.setDisable(game.getPlayers().isEmpty());
+        restartButton.setDisable(true);
 
-        getChildren().addAll(eventArea, nextRoundButton, savePlayersButton);
+        getChildren().addAll(eventArea, nextRoundButton, savePlayersButton, restartButton);
         
-        game.addEventListener(message -> {eventArea.appendText(message + "\n");
+        game.addEventListener(message -> {
+            eventArea.appendText(message + "\n");
+            if (message.contains("won the game")) {
+                nextRoundButton.setDisable(true);
+                restartButton.setDisable(false);
+            }
         });
 
     }

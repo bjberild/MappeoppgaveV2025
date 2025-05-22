@@ -140,4 +140,15 @@ public class BoardGame {
     return players;
   }
 
+  public void reset() {
+    Tile start = board.getStartTile();
+    for (Player p : players) {
+      p.setCurrentTile(start);
+    }
+    winner = null;
+    currentPlayerIndex = 0;
+    notifyEvent("Game has been reset. Players are back at the start tile.");
+    startNextTurn();
+  }
+
 }
