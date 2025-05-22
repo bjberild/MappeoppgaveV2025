@@ -3,7 +3,10 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.controller;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourPiece;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 
 public class ConnectFourController {
   private final ConnectFourGameView view;
@@ -21,6 +24,10 @@ public class ConnectFourController {
       int column = col; // Capture column index for lambda
       view.setDropButtonEventHandler(column, e -> handleMove(column));
     }
+  }
+
+  public void addReturnButtonHandler(EventHandler<ActionEvent> handler) {
+    view.setReturnButtonHandler(handler);
   }
 
   public void handleMove(int col) {
@@ -60,6 +67,11 @@ public class ConnectFourController {
   }
 
   public Scene getScene() {
-    return view.getScene();
+    Pane viewPane = view.getView();
+    return new Scene(viewPane, 800, 600);
+  }
+
+  public Pane getView() {
+    return view.getView();
   }
 }

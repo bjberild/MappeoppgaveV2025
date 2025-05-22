@@ -3,19 +3,19 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourPiece;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.event.ActionEvent;
 
 public class ConnectFourGameView {
-  private final GridPane grid;
   private final int ROWS = 6;
   private final int COLUMNS = 7;
+  private final GridPane grid;
   private final Button returnButton = new Button("Return to Main Menu");
 
   public ConnectFourGameView() {
@@ -33,7 +33,7 @@ public class ConnectFourGameView {
 
     for (int col = 0; col < COLUMNS; col++) {
       Button dropButton = new Button("Drop");
-      dropButton.setId("dropButton" + Integer.toString(col));
+      dropButton.setAlignment(Pos.CENTER);
       buttonRow.getChildren().add(dropButton);
       grid.add(dropButton, col, 0);
     }
@@ -82,10 +82,10 @@ public class ConnectFourGameView {
     return null;
   }
 
-  public Scene getScene() {
+  public Pane getView() {
     VBox layout = new VBox(10, grid, returnButton);
     layout.setAlignment(Pos.CENTER);
 
-    return new Scene(layout, 800, 600);
+    return layout;
   }
 }
