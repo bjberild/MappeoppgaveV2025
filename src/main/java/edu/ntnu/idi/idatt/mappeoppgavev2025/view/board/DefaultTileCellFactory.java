@@ -22,14 +22,19 @@ public class DefaultTileCellFactory implements TileCellFactory {
 
         TileAction act = tile.getAction();
         String iconPath = null; 
-        if (act instanceof PortalAction) iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/portal_2.png";
-        if (act instanceof FallTrapAction) iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/trap.gif";
+        if (act instanceof PortalAction) {
+            iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/portal_2.png";
+        } else if (act instanceof FallTrapAction) {
+            iconPath = "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/trap.gif";
+        }
+
         if (iconPath != null) {
             InputStream in = getClass().getResourceAsStream(iconPath);
             if (in == null) {
                 throw new IllegalStateException("Could not load resource: " + iconPath);
             }
             ImageView icon = new ImageView(new Image(in));
+            icon.getStyleClass().add("action-icon");
             icon.setPreserveRatio(true);
             icon.fitWidthProperty().bind(cell.widthProperty().multiply(0.6));
             icon.fitHeightProperty().bind(cell.heightProperty().multiply(0.6));
