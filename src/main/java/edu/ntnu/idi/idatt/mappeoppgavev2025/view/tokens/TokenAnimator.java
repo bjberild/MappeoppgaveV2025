@@ -25,17 +25,13 @@ public class TokenAnimator {
         ImageView icon = boardView.getTokenIcon(player);
         if (icon == null) return;
 
-        int step = (toTile > fromTile) ? 1 : -1;
-        List<Integer> path = new ArrayList<>();
-        if (fromTile < toTile) {
-            for (int id = fromTile - step; id != toTile + step; id += step) {
-                path.add(id);
-            }
-        } else if (fromTile > toTile) {
-            for (int id = fromTile - 1; id >= toTile; id--) {
-                path.add(id);
-            }
-        }
+        int step = Integer.compare(toTile, fromTile);
+        int totalSteps = Math.abs(toTile - fromTile);
+
+        List<Integer> path = new ArrayList<>(totalSteps);
+        for (int i = 1; i <= totalSteps; i++) {
+            path.add(fromTile + (i * step));
+        } 
 
         Timeline t1 = new Timeline();
         for (int i = 0; i < path.size(); i++) {

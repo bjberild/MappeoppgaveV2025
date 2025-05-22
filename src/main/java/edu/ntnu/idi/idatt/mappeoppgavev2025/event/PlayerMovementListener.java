@@ -11,7 +11,7 @@ import javafx.util.Duration;
 
 public class PlayerMovementListener implements GameEventListener {
     private static final Pattern STEP_MOVE =
-            Pattern.compile("(?i)player\\s+(\\w+)\\s+(?:moved from tile|climbed from|fell from)\\s+(\\d+)\\s+to(?: tile)?\\s+(\\d+)");
+            Pattern.compile("(?i)player\\s+(\\w+)\\s+moved from tile\\s+(\\d+)\\s+to tile\\s+(\\d+)");
     
     private static final Pattern TELEPORT_MOVE = 
             Pattern.compile("(?i)player\\s+(\\w+)\\s+(?:climbed from|fell from)\\s+(\\d+)\\s+to\\s+(\\d+)");
@@ -24,30 +24,38 @@ public class PlayerMovementListener implements GameEventListener {
         this.animator = new TokenAnimator(boardView, Duration.millis(150));
     }
 
+   
     @Override
-    public void onGameEvent(String message) {
-        var t = TELEPORT_MOVE.matcher(message);
-        if (t.find()) {
-            String name = t.group(1);
-            int dest = Integer.parseInt(t.group(3));
-            players.stream()
-                  .filter(p -> p.getName().equals(name))
-                  .findFirst()
-                  .ifPresent(p -> animator.animateTeleport(p, dest));
-            return;
-        }
+public void onGameEvent(String message) {
 
-        var s = STEP_MOVE.matcher(message);
-        if (!s.find()) return;
-
-        String playerName = s.group(1);
-        int fromTile = Integer.parseInt(s.group(2));
-        int toTile   = Integer.parseInt(s.group(3));
+    var tpMatcher = TELEPORT_MOVE.matcher(message);
+    if (tpMatcher.find()) {
+        String playerName = tpMatcher.group(1);
+        int destTile       = Integer.parseInt(tpMatcher.group(3));
 
         players.stream()
-                .filter(player -> player.getName().equals(playerName))
-                .findFirst()
-                .ifPresent(p -> animator.animateWalk(p, fromTile, toTile));
+               .filter(p -> p.getName().equals(playerName))
+               .findFirst()
+               .ifPresent(p -> animator.animateTeleport(p, destTile));
+        return;
     }
+
+
+    var stepMatcher = STEP_MOVE.matcher(message);
+    if (stepMatcher.find()) {
+        String playerName = stepMatcher.group(1);
+        int fromTile      = Integer.parseInt(stepMatcher.group(2));
+        int toTile        = Integer.parseInt(stepMatcher.group(3));
+
+        players.stream()
+               .filter(p -> p.getName().equals(playerName))
+               .findFirst()
+               .ifPresent(p -> animator.animateWalk(p, fromTile, toTile));
+
+
+        }
+
+  
+    }
+
 }
-    
