@@ -118,20 +118,6 @@ public class PlayerCreationDialog extends Stage {
   }
 
   /**
-   * Returns a list of selected colors from the color boxes.
-   *
-   * @return A list of selected colors.
-   */
-  private List<String> getSelectedColors() {
-    List<String> selected = new ArrayList<>();
-    for (ComboBox<String> box : colorBoxes) {
-      if (box.getValue() != null) selected.add(box.getValue());
-    }
-    return selected;
-  }
-
-
-  /**
    * Saves the player names and colors to a CSV file.
    *
    * @param file The file to save to.
