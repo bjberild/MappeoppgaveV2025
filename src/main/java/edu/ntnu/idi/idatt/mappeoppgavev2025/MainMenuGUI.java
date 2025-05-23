@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnlSelectScreen;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -15,18 +16,27 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-//snlB (snakesAndLaddersButton)
-//sogB (someOtherGameButton)
 
+/**
+ * MainMenuGUI is the main menu for the board game hub application.
+ * It allows users to select between different games, such as Snakes and Ladders and Connect Four.
+ *
+ * @author bjberild, StianDolerud
+ */
 public class MainMenuGUI extends Application {
 
   StackPane root = new StackPane();
-  Pane menuLayout = new Pane();
+  VBox menuLayout;
   ImageView backgroundView;
   SnlSelectScreen snlSelectScreen;
   Scene snlSelectScreenScene;
 
-
+  /**
+   * Initializes the main menu GUI for the board game hub.
+   *
+   * @param primaryStage the primary stage for this application
+   * @author bjberild, StianDolerud
+   */
   @Override
   public void start(Stage primaryStage) {
     root = new StackPane();
@@ -38,12 +48,13 @@ public class MainMenuGUI extends Application {
     backgroundView.setPreserveRatio(true);
 
     Button snlSelectButton = getSelectButton(primaryStage);
-
     Button c4Button = getC4Button(primaryStage);
 
     menuLayout = new VBox(10, snlSelectButton, c4Button);
+
     snlSelectScreen = new SnlSelectScreen(primaryStage, menuLayout);
     menuLayout.setPadding(new Insets(20));
+    menuLayout.setAlignment(Pos.CENTER);
 
     root.getChildren().addAll(backgroundView, menuLayout);
 
@@ -61,6 +72,12 @@ public class MainMenuGUI extends Application {
     primaryStage.show();
   }
 
+  /**
+   * Creates a button for the Snakes and Ladders game and sets its action.
+   *
+   * @return the Snakes and Ladders button
+   * @author bjberild
+   */
   private Button getSelectButton(Stage primaryStage) {
     Button snlSelectButton = new Button("Play Snakes and Ladders");
     snlSelectButton.setOnAction(e -> {
