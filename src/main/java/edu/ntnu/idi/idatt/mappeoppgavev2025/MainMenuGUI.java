@@ -2,11 +2,8 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnakesAndLaddersView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnlSelectScreen;
-import java.nio.file.Path;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -22,84 +19,93 @@ import javafx.stage.Stage;
 //sogB (someOtherGameButton)
 
 public class MainMenuGUI extends Application {
-    StackPane root = new StackPane();
-    Pane menuLayout = new Pane();
-    ImageView backgroundView;
-    SnlSelectScreen snlSelectScreen;
+
+  StackPane root = new StackPane();
+  Pane menuLayout = new Pane();
+  ImageView backgroundView;
+  SnlSelectScreen snlSelectScreen;
+  Scene snlSelectScreenScene;
 
 
-    @Override
-    public void start(Stage primaryStage) {
-        root = new StackPane();
-        Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
-        backgroundView = new ImageView(gifImage);
-        backgroundView.setFitWidth(2000);
-        backgroundView.setFitHeight(1750);
-        backgroundView.setPreserveRatio(true);
+  @Override
+  public void start(Stage primaryStage) {
+    root = new StackPane();
+    Image gifImage = new Image(getClass().getResourceAsStream(
+        "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
+    backgroundView = new ImageView(gifImage);
+    backgroundView.setFitWidth(1900);
+    backgroundView.setFitHeight(1600);
+    backgroundView.setPreserveRatio(true);
 
-        Button snlSelectButton = getSelectButton(primaryStage);
+    Button snlSelectButton = getSelectButton(primaryStage);
 
-        Button c4Button = getC4Button();
+    Button c4Button = getC4Button(primaryStage);
 
-        menuLayout = new VBox(10, snlSelectButton, c4Button);
-        snlSelectScreen = new SnlSelectScreen(primaryStage, menuLayout);
+    menuLayout = new VBox(10, snlSelectButton, c4Button);
+    snlSelectScreen = new SnlSelectScreen(primaryStage, menuLayout);
     menuLayout.setPadding(new Insets(20));
 
     root.getChildren().addAll(backgroundView, menuLayout);
 
-        Scene menuScene = new Scene(root);
+    Scene menuScene = new Scene(root);
 
-        primaryStage.setTitle("Board Game Hub");
-        primaryStage.setScene(menuScene);
+    primaryStage.setTitle("Board Game Hub");
+    primaryStage.setScene(menuScene);
 
-        primaryStage.setWidth(900);
-        primaryStage.setHeight(700);
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(700);
-        primaryStage.setResizable(true);
+    primaryStage.setWidth(900);
+    primaryStage.setHeight(700);
+    primaryStage.setMinWidth(800);
+    primaryStage.setMinHeight(700);
+    primaryStage.setResizable(true);
 
-        primaryStage.show();
-    }
+    primaryStage.show();
+  }
 
   private Button getSelectButton(Stage primaryStage) {
-    Button snlSelectButton = new Button("Select Board and Players");
+    Button snlSelectButton = new Button("Play Snakes and Ladders");
     snlSelectButton.setOnAction(e -> {
+      snlSelectScreen = new SnlSelectScreen(primaryStage, menuLayout);
       snlSelectScreen.initialize();
       snlSelectScreen.setStage(primaryStage);
-      Scene selectScene = new Scene(snlSelectScreen.getView(), 800, 700);
-      primaryStage.setScene(selectScene);
+      snlSelectScreenScene = new Scene(snlSelectScreen.getView(), 800, 700);
+      primaryStage.setScene(snlSelectScreenScene);
       primaryStage.sizeToScene();
       primaryStage.centerOnScreen();
     });
 
     return snlSelectButton;
   }
-    /**
-     * Creates a button for the Connect Four game and sets its action.
-     * @return the Connect Four button
-     * @author bjberild
-     */
-    private Button getC4Button() {
-        Button c4MenuBtn = new Button("Connect Four");
 
-        c4MenuBtn.setOnAction(e -> {
-            ConnectFourBoard c4board = new ConnectFourBoard();
-            ConnectFourGameView c4view = new ConnectFourGameView();
-            ConnectFourController c4controller = new ConnectFourController(c4view, c4board);
-            Pane c4layout = c4controller.getView();
-            c4controller.addReturnButtonHandler(event -> {
-                root.getChildren().remove(c4layout);
-                root.getChildren().addAll(backgroundView,menuLayout);
-            });
-            root.getChildren().removeAll(backgroundView,menuLayout,c4layout);
-            root.getChildren().add(c4layout);
-        });
-        return c4MenuBtn;
-    }
+  /**
+   * Creates a button for the Connect Four game and sets its action.
+   *
+   * @return the Connect Four button
+   * @author bjberild
+   */
+  private Button getC4Button(Stage primaryStage) {
+    Button c4Button = new Button("Play Connect Four");
+    c4Button.setOnAction(e -> {
+      ConnectFourBoard c4board = new ConnectFourBoard();
+      ConnectFourGameView c4view = new ConnectFourGameView();
+      ConnectFourController c4ctrl = new ConnectFourController(c4view, c4board);
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+      c4ctrl.addReturnButtonHandler(evt -> {
+        primaryStage.setScene(menuLayout.getScene());
+        primaryStage.sizeToScene();
+        primaryStage.centerOnScreen();
+      });
 
-    
+      Scene c4Scene = c4ctrl.getScene();
+      primaryStage.setScene(c4Scene);
+      primaryStage.sizeToScene();
+      primaryStage.centerOnScreen();
+    });
+    return c4Button;
+  }
+
+  public static void main(String[] args) {
+    launch(args);
+  }
+
+
 }

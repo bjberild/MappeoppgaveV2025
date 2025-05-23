@@ -66,7 +66,7 @@ public class BoardGameGUI {
         game.addEventListener(new TileHighlighter(view.getBoardView()));
         game.addEventListener(new PlayerMovementListener(view.getBoardView(), game.getPlayers()));
 
-        Scene scene = view.toScene(800, 600);
+        Scene scene = view.toScene(1200, 1100);
 
         game.addEventListener(new edu.ntnu.idi.idatt.mappeoppgavev2025.event.TileHighlighter(view.getBoardView()));
         scene.getStylesheets().add(

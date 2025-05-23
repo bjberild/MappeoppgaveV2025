@@ -36,6 +36,7 @@ public class SnlSelectScreen {
   }
 
   public void initialize() {
+    view.getChildren().clear();
     // Initialize the view with buttons and other UI elements
     Button loadBoardButton = new Button("Load Board");
     boardLabel = new Label("No board selected");
@@ -80,12 +81,13 @@ public class SnlSelectScreen {
       SnakesAndLaddersView snlView = launcher.getSnakesAndLaddersView();
       snlView.setOnReturn(evt -> {
         primaryStage.setScene(menuLayout.getScene());
-        primaryStage.sizeToScene();
+        primaryStage.setWidth(900);
+        primaryStage.setHeight(700);
         primaryStage.centerOnScreen();
       });
 
       primaryStage.setScene(snlScene);
-      primaryStage.sizeToScene();
+
       primaryStage.centerOnScreen();
     });
     return snlButton;
