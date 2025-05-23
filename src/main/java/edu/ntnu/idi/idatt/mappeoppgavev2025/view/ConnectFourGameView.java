@@ -15,6 +15,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.event.ActionEvent;
 
+
+/**
+ * ConnectFourGameView is a JavaFX class that represents the graphical user interface
+ * for the Connect Four game. It provides methods to initialize the game grid, update
+ * the current player label, and handle button events.
+ *
+ * @author bjberild
+ */
 public class ConnectFourGameView {
   private final int ROWS = 6;
   private final int COLUMNS = 7;
@@ -24,6 +32,13 @@ public class ConnectFourGameView {
   private final Button resetButton = new Button("Reset Game");
   private final Button switchStartButton = new Button("Switch Start Player");
 
+  /**
+   * Constructor for ConnectFourGameView.
+   * Initializes the game view with a grid and buttons.
+   * Sets the reset button to be disabled initially.
+   *
+   * @author bjberild
+   */
   public ConnectFourGameView() {
     this.grid = new GridPane();
     resetButton.setDisable(true);
@@ -31,6 +46,11 @@ public class ConnectFourGameView {
     styleElements();
   }
 
+  /**
+   * Initializes the grid for the Connect Four game.
+   *
+   * @author bjberild
+   */
   private void initializeGrid() {
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(5);
@@ -54,8 +74,12 @@ public class ConnectFourGameView {
     }
   }
 
+  /**
+   * Styles the elements of the Connect Four game view.
+   *
+   * @author bjberild
+   */
   private void styleElements() {
-    //returnButton.setStyle("-fx-background-color: #FF6347; -fx-text-fill: white;");
     currentPlayerLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: #000000;");
 
     returnButton.setAlignment(Pos.CENTER);
@@ -65,14 +89,31 @@ public class ConnectFourGameView {
     currentPlayerLabel.setPadding(new Insets(10));
   }
 
+  /**
+   * Sets the current player label to display the current player's name.
+   *
+   * @param player The name of the current player.
+   * @author bjberild
+   */
   public void setCurrentPlayerLabel(String player) {
     currentPlayerLabel.setText("Current Player: " + player);
   }
 
+  /**
+   * Sets the winner label to display the winner of the game.
+   *
+   * @param winner The name of the winning player.
+   * @author bjberild
+   */
   public void setWinnerLabel(String winner) {
     currentPlayerLabel.setText("Winner: " + winner);
   }
 
+  /**
+   * Clears the Connect Four board by resetting all cells to white.
+   *
+   * @author bjberild
+   */
   public void clearBoard() {
     for (int col = 0; col < COLUMNS; col++) {
       for (int row = 0; row < ROWS; row++) {
@@ -82,6 +123,13 @@ public class ConnectFourGameView {
     }
   }
 
+  /**
+   * Sets the event handler for the drop button in a specific column.
+   *
+   * @param column The column index of the drop button.
+   * @param handler The event handler to be set.
+   * @author bjberild
+   */
   public void setDropButtonEventHandler(int column, EventHandler<ActionEvent> handler) {
     Button button = (Button) getNodeFromGridPane(grid, column, 0); // Buttons are in the first row
     if (button != null) {
@@ -89,14 +137,32 @@ public class ConnectFourGameView {
     }
   }
 
+  /**
+   * Sets the event handler for the reset button.
+   *
+   * @param handler The event handler to be set.
+   * @author bjberild
+   */
   public void setResetButtonHandler(EventHandler<ActionEvent> handler) {
     resetButton.setOnAction(handler);
   }
 
+  /**
+   * Sets the event handler for the switch start button.
+   *
+   * @param handler The event handler to be set.
+   * @author bjberild
+   */
   public void setSwitchStartButtonEventHandler(EventHandler<ActionEvent> handler) {
     switchStartButton.setOnAction(handler);
   }
 
+  /**
+   * Sets the event handler for the return button.
+   *
+   * @param handler The event handler to be set.
+   * @author bjberild
+   */
   public void setReturnButtonHandler(EventHandler<ActionEvent> handler) {
     returnButton.setOnAction(handler);
   }
@@ -109,6 +175,12 @@ public class ConnectFourGameView {
     switchStartButton.setDisable(bool);
   }
 
+  /**
+   * Creates a cell for the Connect Four grid.
+   *
+   * @return A Circle representing a cell in the grid.
+   * @author bjberild
+   */
   private Circle createCell() {
     Circle cell = new Circle(30);
     cell.setFill(Color.WHITE);
@@ -116,6 +188,14 @@ public class ConnectFourGameView {
     return cell;
   }
 
+  /**
+   * Updates the cell at the specified row and column with the given piece.
+   *
+   * @param row The row index of the cell to update.
+   * @param col The column index of the cell to update.
+   * @param piece The ConnectFourPiece to place in the cell.
+   * @author bjberild
+   */
   public void updateCell(int row, int col, ConnectFourPiece piece) {
     Circle cell = (Circle) getNodeFromGridPane(grid, col, row+1); // Adjust for button row
     if (piece == ConnectFourPiece.PLAYER_1) {
@@ -134,6 +214,12 @@ public class ConnectFourGameView {
     return null;
   }
 
+  /**
+   * Returns the main layout of the game view.
+   *
+   * @return The main layout pane.
+   * @author bjberild
+   */
   public Pane getView() {
     VBox gridbox = new VBox(10, grid);
     gridbox.setAlignment(Pos.CENTER);
