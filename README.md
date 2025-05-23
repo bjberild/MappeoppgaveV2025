@@ -22,3 +22,17 @@ mvn clean install
 ~~~
 java -jar jarfilename.jar
 ~~~
+
+## Saving Players and Boards (CSV & JSON)
+
+While playing Snakes 6 Ladders in Board Game Hub, you can save your random generated board and players using the built-in buttons in the control panel.
+
+Saving Players to CSV
+	•	How: Click the “Save Players” button in the control panel (at the bottom of the game view).
+	•	What it does: This opens a file dialog where you can choose the location and filename for your CSV file. It will then save all current player data (names, tokens) to the selected CSV file.
+	•	Why: This lets you reload the same set of players and use during another session. 
+
+Saving the Board to JSON
+	•	How: Click the “Save Board” button in the control panel.
+	•	What it does: This opens a file dialog where you can select the location and filename for the JSON file. The current game board configuration, including tile types and actions, will be saved as a JSON file.
+	•	Why: This allows you to reuse or share custom board layouts and game states.
