@@ -34,25 +34,24 @@ public class MainMenuGUI extends Application {
         backgroundView.setFitHeight(1750);
         backgroundView.setPreserveRatio(true);
 
-           Button snlButton = new Button("Snakes and Ladders");
-        snlButton.setOnAction(e -> {
+        Button snlButton = getSnlButton(primaryStage);
 
-            BoardGameGUI launcher = new BoardGameGUI();
-            Scene snlScene = launcher.getScene(primaryStage);
+        Button c4Button = getC4Button(primaryStage);
 
-            SnakesAndLaddersView view = launcher.getSnakesAndLaddersView();
-            view.setOnReturn(evt -> {
-                primaryStage.setScene(menuLayout.getScene());
-                primaryStage.sizeToScene();
-                primaryStage.centerOnScreen();
-            });
+        menuLayout = new VBox(10, snlButton, c4Button);
+    menuLayout.setPadding(new Insets(20));
 
-            primaryStage.setScene(snlScene);
-            primaryStage.sizeToScene();
-            primaryStage.centerOnScreen();
-        });
+    root.getChildren().addAll(backgroundView, menuLayout);
 
+    Scene scene = new Scene(root, 900, 700);
+    primaryStage.setTitle("Main Menu");
+    primaryStage.setScene(scene);
+    primaryStage.setMinWidth(800);
+    primaryStage.setMinHeight(700);
+    primaryStage.show();
+    }
 
+    private Button getC4Button(Stage primaryStage) {
         Button c4Button = new Button("Connect Four");
 
         c4Button.setOnAction(e -> {
@@ -71,20 +70,30 @@ public class MainMenuGUI extends Application {
             primaryStage.sizeToScene();
             primaryStage.centerOnScreen();
         });
-
-
-    menuLayout = new VBox(10, snlButton, c4Button);
-    menuLayout.setPadding(new Insets(20));
-
-    root.getChildren().addAll(backgroundView, menuLayout);
-
-    Scene scene = new Scene(root, 900, 700);
-    primaryStage.setTitle("Main Menu");
-    primaryStage.setScene(scene);
-    primaryStage.setMinWidth(800);
-    primaryStage.setMinHeight(700);
-    primaryStage.show();
+        return c4Button;
     }
+
+    private Button getSnlButton(Stage primaryStage) {
+        Button snlButton = new Button("Snakes and Ladders");
+        snlButton.setOnAction(e -> {
+
+            BoardGameGUI launcher = new BoardGameGUI();
+            Scene snlScene = launcher.getScene(primaryStage, null, null);
+
+            SnakesAndLaddersView view = launcher.getSnakesAndLaddersView();
+            view.setOnReturn(evt -> {
+                primaryStage.setScene(menuLayout.getScene());
+                primaryStage.sizeToScene();
+                primaryStage.centerOnScreen();
+            });
+
+            primaryStage.setScene(snlScene);
+            primaryStage.sizeToScene();
+            primaryStage.centerOnScreen();
+        });
+        return snlButton;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

@@ -19,12 +19,13 @@ public class BoardGameGUI {
     private SnakesAndLaddersView snakesview;
 
 
-    public Scene getScene(Stage stage) {
+    public Scene getScene(Stage stage, Path boardPath, Path playersPath) {
 
         BoardGame game = new BoardGame();
         game.createBoard();
         game.createDice(2);
 
+        /*
         Path boardPath = null;
         try {
             boardPath = BoardLoader.promtForBoard(stage);
@@ -34,6 +35,9 @@ public class BoardGameGUI {
                 showError("Error loading board:\n" + e.getMessage());
             }
         }
+
+         */
+
         if (boardPath != null) {
             try {
                 game.loadBoard(boardPath);
@@ -43,8 +47,11 @@ public class BoardGameGUI {
         }
 
         try {
-            Path playersPath = PlayerLoader.promtForPlayers(stage);
+            if (playersPath != null) {
             game.loadPlayers(playersPath);
+            } else {
+                PlayerLoader.addDefaultPlayers(game);
+            }
         } catch (PlayerPersistenceException e) {
             showError("Error loading players:\n" + e.getMessage());
             PlayerLoader.addDefaultPlayers(game);
