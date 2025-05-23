@@ -11,8 +11,29 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.GsonBoardPersistence;
 
 
-//This demo forces the player to land on a portal and a trap.
+/**
+ * Demo application showcasing the behavior of portal and trap actions on a board.
+ * <p>
+ * Loads a predefined board configuration from JSON, moves a player onto a portal tile,
+ * then onto a trap tile, printing the player's position before and after each action.
+ * </p>
+ * 
+ * @author StianDolerud
+ */
 public class PortalTrapDemo {
+
+  /**
+   * Entry point for the PortalTrapDemo.
+   * <p>
+   * - Reads the board definition from <code>src/test/resources/board90.json</code>.<br>
+   * - Deserializes it into a {@link Board}.<br>
+   * - Creates a {@link Player}, triggers a portal action at tile 5, and prints positions.<br>
+   * - Triggers a trap action at tile 20, and prints positions.
+   * </p>
+   *
+   * @param args command-line arguments (not used)
+   * @throws Exception if reading the JSON file or parsing fails
+   */
 
     public static void main(String[] args) throws Exception {
         String text = Files.readString(Path.of("src/test/resources/board90.json"));

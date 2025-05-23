@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,14 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 
-
+/**
+ * GUI-komponent for å vise brettet, brikker og spillerikoner.
+ * 
+ * Oppretter et GridPane-basert brett og håndterer grafisk plassering
+ * av alle brikker og spillere på ruter. 
+ * 
+ * @author StianDolerud
+ */
 public class BoardView extends Region {
     
     private static final int COLUMNS = 10;
@@ -34,8 +40,15 @@ public class BoardView extends Region {
     private final Map<Player, ImageView> tokenMap = new HashMap<>();
     private final Map<Integer, StackPane> tilePaneMap = new HashMap<>();
 
-
-    
+    /**
+     * Lager et nytt BoardView med tilhørende GUI-objekter og plasserer ruter/spillere.
+     *
+     * @param board Brettet som skal vises
+     * @param cellFactory Factory for visuelle celler
+     * @param players Liste med alle spillere
+     * @param tokenFactory Factory for spillerikoner/brikker
+     * @param pipStrategy Plasseringsstrategi for flere brikker på samme rute
+     */
     public BoardView(Board board, 
                      TileCellFactory cellFactory,
                      List<Player> players, 
@@ -47,8 +60,7 @@ public class BoardView extends Region {
         this.players      = players;
         grid              = new GridPane();
 
-        
-
+        // Sett opp grid
         for (int i = 0; i < COLUMNS; i++) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setPercentWidth(100.0 / COLUMNS);
@@ -65,6 +77,7 @@ public class BoardView extends Region {
         int col             = 0;
         boolean leftToRight = true;
 
+        // Plasser alle ruter/celler på gridet i slange-mønster
         while (current != null && row >= 0) {
             StackPane cellPane = (StackPane) cellFactory.createCell(current, 0, 0);
             cellPane.getStyleClass().add("tile");
@@ -83,18 +96,19 @@ public class BoardView extends Region {
             current = current.getNextTile();
         }
 
+        // Opprett brikkeikoner for spillere
         for (Player p : players) {
             ImageView icon = tokenFactory.createIcon(p.getToken().trim());
             icon.setFitWidth(100);
             icon.setFitHeight(100);
             tokenMap.put(p, icon);
         }
+        // Plasser alle spillere på brettet
         tilePaneMap.keySet().stream()
             .filter(this::hasPlayersOnTile)
             .forEach(this::refreshTile);
             
         getChildren().add(grid);
-       
     }
 
     @Override
@@ -102,10 +116,22 @@ public class BoardView extends Region {
         grid.resizeRelocate(0, 0, getWidth(), getHeight());
     }
 
+    /**
+     * Sjekker om det finnes en eller flere spillere på gitt rute.
+     *
+     * @param tileId ID for ruten
+     * @return true hvis det er spillere der, ellers false
+     */
     private boolean hasPlayersOnTile(int tileId) {
         return !getPlayersOnTile(tileId).isEmpty();
     }
 
+    /**
+     * Henter alle spillere som står på en gitt rute.
+     *
+     * @param tileId ID for ruten
+     * @return Liste over spillere på ruten
+     */
     private List<Player> getPlayersOnTile(int tileId) {
         return players.stream()
                       .filter(p -> p.getCurrentTile() != null)
@@ -113,10 +139,22 @@ public class BoardView extends Region {
                       .collect(Collectors.toList());
     }
 
+    /**
+     * Henter ImageView-objektet (ikonet) for en spiller.
+     *
+     * @param player Spilleren
+     * @return ImageView-ikonet, eller null hvis ikke funnet
+     */
     public ImageView getTokenIcon(Player player) {
         return tokenMap.get(player);
     }
 
+    /**
+     * Flytter en brikke til angitt rute på brettet visuelt.
+     *
+     * @param icon Ikonet for brikken som skal flyttes
+     * @param tileId ID på ruten hvor brikken skal plasseres
+     */
     public void playerTokenOnTile(ImageView icon, int tileId) {
         tilePaneMap.values().forEach(pane -> pane.getChildren().remove(icon));
         StackPane dest = tilePaneMap.get(tileId);
@@ -126,6 +164,12 @@ public class BoardView extends Region {
         }
     } 
 
+    /**
+     * Oppdaterer grafikken på en rute: fjerner gamle brikker og plasserer
+     * alle spillere på riktig posisjon på ruten.
+     *
+     * @param tileId ID på ruten som skal oppdateres
+     */
     public void refreshTile(int tileId) {
         StackPane pane = tilePaneMap.get(tileId);
         if (pane == null) return;
