@@ -4,9 +4,7 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnakesAndLaddersView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnlSelectScreen;
-import java.nio.file.Path;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -39,7 +37,7 @@ public class MainMenuGUI extends Application {
 
         Button snlSelectButton = getSelectButton(primaryStage);
 
-        Button c4Button = getC4Button(primaryStage);
+        Button c4Button = getC4Button();
 
         menuLayout = new VBox(10, snlSelectButton, c4Button);
         snlSelectScreen = new SnlSelectScreen(primaryStage, menuLayout);
@@ -47,51 +45,59 @@ public class MainMenuGUI extends Application {
 
     root.getChildren().addAll(backgroundView, menuLayout);
 
-    Scene scene = new Scene(root, 900, 700);
-    primaryStage.setTitle("Main Menu");
-    primaryStage.setScene(scene);
-    primaryStage.setMinWidth(800);
-    primaryStage.setMinHeight(700);
-    primaryStage.show();
+        Scene menuScene = new Scene(root);
+
+        primaryStage.setTitle("Game Game");
+        primaryStage.setScene(menuScene);
+
+        primaryStage.setWidth(900);
+        primaryStage.setHeight(700);
+        primaryStage.setMinWidth(800);
+        primaryStage.setMinHeight(700);
+        primaryStage.setResizable(true);
+
+        primaryStage.show();
     }
 
-    private Button getSelectButton(Stage primaryStage) {
-        Button snlSelectButton = new Button("Select Board and Players");
-        snlSelectButton.setOnAction(e -> {
-            snlSelectScreen.initialize();
-            snlSelectScreen.setStage(primaryStage);
-            Scene selectScene = new Scene(snlSelectScreen.getView(), 800, 700);
-            primaryStage.setScene(selectScene);
-            primaryStage.sizeToScene();
-            primaryStage.centerOnScreen();
-        });
+  private Button getSelectButton(Stage primaryStage) {
+    Button snlSelectButton = new Button("Select Board and Players");
+    snlSelectButton.setOnAction(e -> {
+      snlSelectScreen.initialize();
+      snlSelectScreen.setStage(primaryStage);
+      Scene selectScene = new Scene(snlSelectScreen.getView(), 800, 700);
+      primaryStage.setScene(selectScene);
+      primaryStage.sizeToScene();
+      primaryStage.centerOnScreen();
+    });
 
-        return snlSelectButton;
-    }
+    return snlSelectButton;
+  }
+    /**
+     * Creates a button for the Connect Four game and sets its action.
+     * @return the Connect Four button
+     * @author bjberild
+     */
+    private Button getC4Button() {
+        Button c4MenuBtn = new Button("Connect Four");
 
-    private Button getC4Button(Stage primaryStage) {
-        Button c4Button = new Button("Connect Four");
-
-        c4Button.setOnAction(e -> {
+        c4MenuBtn.setOnAction(e -> {
             ConnectFourBoard c4board = new ConnectFourBoard();
             ConnectFourGameView c4view = new ConnectFourGameView();
-            ConnectFourController c4ctrl = new ConnectFourController(c4view, c4board);
-
-            c4ctrl.addReturnButtonHandler(evt -> {
-                primaryStage.setScene(menuLayout.getScene());
-                primaryStage.sizeToScene();
-                primaryStage.centerOnScreen();
+            ConnectFourController c4controller = new ConnectFourController(c4view, c4board);
+            Pane c4layout = c4controller.getView();
+            c4controller.addReturnButtonHandler(event -> {
+                root.getChildren().remove(c4layout);
+                root.getChildren().addAll(backgroundView,menuLayout);
             });
-
-            Scene c4Scene = c4ctrl.getScene();
-            primaryStage.setScene(c4Scene);
-            primaryStage.sizeToScene();
-            primaryStage.centerOnScreen();
+            root.getChildren().removeAll(backgroundView,menuLayout,c4layout);
+            root.getChildren().add(c4layout);
         });
-        return c4Button;
+        return c4MenuBtn;
     }
 
     public static void main(String[] args) {
         launch(args);
     }
+
+    
 }
