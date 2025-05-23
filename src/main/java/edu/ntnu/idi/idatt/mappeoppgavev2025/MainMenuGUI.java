@@ -36,10 +36,10 @@ public class MainMenuGUI extends Application {
 
            Button snlButton = new Button("Snakes and Ladders");
         snlButton.setOnAction(e -> {
-
+        
             BoardGameGUI launcher = new BoardGameGUI();
             Scene snlScene = launcher.getScene(primaryStage);
-
+        
             SnakesAndLaddersView view = launcher.getSnakesAndLaddersView();
             view.setOnReturn(evt -> {
                 primaryStage.setScene(menuLayout.getScene());
