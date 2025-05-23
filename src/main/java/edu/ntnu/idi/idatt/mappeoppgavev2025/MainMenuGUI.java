@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.logging.Logger;
 
 
 /**
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
  * @author bjberild, StianDolerud
  */
 public class MainMenuGUI extends Application {
+  private static final Logger logger = Logger.getLogger(MainMenuGUI.class.getName());
 
   StackPane root = new StackPane();
   VBox menuLayout;
@@ -39,12 +41,17 @@ public class MainMenuGUI extends Application {
   @Override
   public void start(Stage primaryStage) {
     root = new StackPane();
-    Image gifImage = new Image(getClass().getResourceAsStream(
-        "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
-    backgroundView = new ImageView(gifImage);
-    backgroundView.setFitWidth(1900);
-    backgroundView.setFitHeight(1600);
-    backgroundView.setPreserveRatio(true);
+    Image gifImage;
+    try {
+      gifImage = new Image(getClass().getResourceAsStream(
+          "/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
+      backgroundView = new ImageView(gifImage);
+      backgroundView.setFitWidth(1900);
+      backgroundView.setFitHeight(1600);
+      backgroundView.setPreserveRatio(true);
+    } catch (NullPointerException e) {
+      logger.warning("Error loading image: " + e.getMessage());
+    }
 
     Button snlSelectButton = getSelectButton(primaryStage);
     Button c4Button = getC4Button(primaryStage);
