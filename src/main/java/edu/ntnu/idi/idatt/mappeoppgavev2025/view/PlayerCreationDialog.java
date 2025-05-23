@@ -68,6 +68,8 @@ public class PlayerCreationDialog extends Stage {
     root.setAlignment(Pos.CENTER);
 
     setScene(new Scene(root));
+    setWidth(400);
+    setHeight(500);
   }
 
   /**
