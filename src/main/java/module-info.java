@@ -2,6 +2,7 @@ module edu.ntnu.idi.idatt.mappeoppgavev2025 {
   requires javafx.controls;
   requires javafx.fxml;
   requires com.google.gson;
+  requires java.logging;
 
   // Open and export the root package
   opens edu.ntnu.idi.idatt.mappeoppgavev2025 to javafx.base;

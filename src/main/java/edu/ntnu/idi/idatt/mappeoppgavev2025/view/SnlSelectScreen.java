@@ -13,8 +13,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.nio.file.Path;
 import javafx.stage.Stage;
+import java.util.logging.Logger;
 
 public class SnlSelectScreen {
+  private static final Logger logger = Logger.getLogger(SnlSelectScreen.class.getName());
   private VBox view;
   private Path boardPath;
   private Label boardLabel;
@@ -64,7 +66,7 @@ public class SnlSelectScreen {
         boardLabel.setText(boardPath.toString());
       } catch (IOException ex) {
         // Handle exception (e.g., show an error message)
-        System.err.println("Error loading board: " + ex.getMessage());
+        logger.warning("Error loading board: " + ex.getMessage());
       }
     });
     VBox boardBox = new VBox();
@@ -82,7 +84,7 @@ public class SnlSelectScreen {
         playersLabel.setText(playersPath.toString());
       } catch (PlayerPersistenceException ex) {
         // Handle exception (e.g., show an error message)
-        System.err.println("Error loading players: " + ex.getMessage());
+        logger.warning("Error loading players: " + ex.getMessage());
       }
     });
 

@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
+import java.util.logging.Logger;
 
 /**
  * ConnectFourController handles the game logic and user interactions for the Connect Four game.
@@ -16,10 +17,11 @@ import javafx.scene.layout.Pane;
  * @author bjberild
  */
 public class ConnectFourController {
+  private static final Logger logger = Logger.getLogger(ConnectFourController.class.getName());
+
   private final ConnectFourGameView view;
   private final ConnectFourBoard board;
   private ConnectFourPiece currentPlayer;
-  private boolean winCon = false;
   private boolean finished = false;
 
 
@@ -49,9 +51,7 @@ public class ConnectFourController {
       });
     }
 
-    view.setResetButtonHandler(e -> {
-      resetGame();
-    });
+    view.setResetButtonHandler(e -> resetGame());
 
     view.setSwitchStartButtonEventHandler(e -> {
       currentPlayer = (currentPlayer == ConnectFourPiece.PLAYER_1) ? ConnectFourPiece.PLAYER_2 : ConnectFourPiece.PLAYER_1;
@@ -76,14 +76,15 @@ public class ConnectFourController {
    * @author bjberild
    */
   public void handleMove(int col) {
+    boolean winCon;
     if (finished) {
-      System.out.println("Game is already finished. No more moves allowed.");
+      logger.info("Game is already finished. No more moves allowed.");
       return;
     }
     try {
       winCon = board.move(col, currentPlayer);
     } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+      logger.warning(e.getMessage());
       return; // Exit if the move is invalid
     }
     view.updateCell(board.getRows()-board.getCurrentRow(col), col, currentPlayer);
@@ -92,7 +93,7 @@ public class ConnectFourController {
       finished = true;
       view.setWinnerLabel(currentPlayer.getPlayerName());
       view.setDisableResetButton(false);
-      System.out.println("Player " + currentPlayer + " wins!");
+      logger.info("Player " + currentPlayer.getPlayerName() + " wins!");
     }
     else {
       switchPlayer();

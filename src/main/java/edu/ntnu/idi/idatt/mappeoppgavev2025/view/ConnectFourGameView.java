@@ -24,8 +24,8 @@ import javafx.event.ActionEvent;
  * @author bjberild
  */
 public class ConnectFourGameView {
-  private final int ROWS = 6;
-  private final int COLUMNS = 7;
+  private static final int ROWS = 6;
+  private static final int COLUMNS = 7;
   private final GridPane grid;
   private final Button returnButton = new Button("Return to Main Menu");
   private final Label currentPlayerLabel = new Label("Current Player: Player 1");

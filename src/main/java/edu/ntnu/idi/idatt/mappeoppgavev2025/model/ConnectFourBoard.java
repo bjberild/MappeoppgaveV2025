@@ -10,7 +10,6 @@ import java.util.List;
  * @author bjberild
  */
 public class ConnectFourBoard {
-
   private final List<List<ConnectFourPiece>> columns;
   private final int rows;
 
@@ -87,11 +86,7 @@ public class ConnectFourBoard {
     if (column.size() >= this.rows) {
       throw new IllegalArgumentException("That column is full");
     }
-
     column.add(player);
-
-    System.out.println("Added " + player + " to column " + (x + 1) + ", row " + (column.size()));
-
     return checkWin(x, column.size() - 1, player);
   }
 
