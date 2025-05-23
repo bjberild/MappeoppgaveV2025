@@ -11,10 +11,10 @@ import javafx.util.Duration;
 
 public class PlayerMovementListener implements GameEventListener {
     private static final Pattern STEP_MOVE =
-            Pattern.compile("(?i)player\\s+(\\w+)\\s+moved from tile\\s+(\\d+)\\s+to(?: tile)?\\s+(\\d+)");
+            Pattern.compile("(?i)player\\s+(.+?)\\s+moved from tile\\s+(\\d+)\\s+to(?: tile)?\\s+(\\d+)");
     
     private static final Pattern TELEPORT_MOVE = 
-            Pattern.compile("(?i)player\\s+(\\w+)\\s+(?:climbed from|fell from)\\s+(\\d+)\\s+to\\s+(\\d+)");
+            Pattern.compile("(?i)player\\s+(.+?)\\s+(?:climbed|fell) from\\s+(\\d+)\\s+to\\s+(\\d+)");
 
     private final TokenAnimator animator;
     private final List<Player> players;

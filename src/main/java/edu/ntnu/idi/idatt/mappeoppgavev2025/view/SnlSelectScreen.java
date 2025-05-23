@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import java.nio.file.Path;
@@ -38,10 +39,24 @@ public class SnlSelectScreen {
   public void initialize() {
     view.getChildren().clear();
     // Initialize the view with buttons and other UI elements
+    VBox boardBox = getBoardBox();
+    boardBox.setAlignment(Pos.CENTER);
+    boardBox.setSpacing(10);
+    VBox playersBox = getPlayersBox();
+    playersBox.setAlignment(Pos.CENTER);
+    playersBox.setSpacing(10);
+
+    startButton = getSnlButton(stage);
+
+    view.getChildren().addAll(new Label("Press 'Continue' to start the game"),
+        startButton, boardBox, playersBox);
+    view.setSpacing(10);
+    view.setAlignment(Pos.CENTER);
+  }
+
+  private VBox getBoardBox() {
     Button loadBoardButton = new Button("Load Board");
-    boardLabel = new Label("No board selected");
-    Button loadPlayersButton = new Button("Load Players");
-    playersLabel = new Label("No players selected");
+    boardLabel = new Label("No board selected. Random board will be used.");
 
     loadBoardButton.setOnAction(e -> {
       try {
@@ -52,6 +67,14 @@ public class SnlSelectScreen {
         System.err.println("Error loading board: " + ex.getMessage());
       }
     });
+    VBox boardBox = new VBox();
+    boardBox.getChildren().addAll(boardLabel, loadBoardButton);
+    return boardBox;
+  }
+
+  private VBox getPlayersBox() {
+    Button loadPlayersButton = new Button("Load Players");
+    playersLabel = new Label("No players selected. Two default players will be used.");
 
     loadPlayersButton.setOnAction(e -> {
       try {
@@ -63,12 +86,24 @@ public class SnlSelectScreen {
       }
     });
 
-    startButton = getSnlButton(stage);
+    Button newPlayerButton = new Button("Create New Players");
+    newPlayerButton.setOnAction(e -> {
+      PlayerCreationDialog dialog = new PlayerCreationDialog(stage);
+      dialog.showAndWait();
+      Path createdFile = dialog.getSavedFilePath();
+      if (createdFile != null) {
+        playersPath = createdFile;
+        playersLabel.setText(playersPath.toString());
+      }
+    });
+    HBox playersButtonBox = new HBox();
+    playersButtonBox.getChildren().addAll(loadPlayersButton, newPlayerButton);
+    playersButtonBox.setAlignment(Pos.CENTER);
+    playersButtonBox.setSpacing(10);
 
-    view.getChildren().addAll(boardLabel, loadBoardButton, playersLabel,
-        loadPlayersButton, new Label("Press 'Continue' to start the game"),startButton);
-    view.setSpacing(10);
-    view.setAlignment(Pos.CENTER);
+    VBox playersBox = new VBox();
+    playersBox.getChildren().addAll(playersLabel, playersButtonBox);
+    return playersBox;
   }
 
   private Button getSnlButton(Stage primaryStage) {
