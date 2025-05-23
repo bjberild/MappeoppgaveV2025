@@ -13,6 +13,10 @@ import java.io.FileWriter;
 import java.nio.file.Path;
 import java.util.*;
 
+/**
+ * A dialog for creating new players in the game.
+ * Allows the user to specify player names and colors.
+ */
 public class PlayerCreationDialog extends Stage {
   private Path savedFilePath = null;
   private static final List<String> COLORS = Arrays.asList("Red", "Blue", "Green", "Yellow", "Pink");
@@ -21,6 +25,11 @@ public class PlayerCreationDialog extends Stage {
   private final List<TextField> nameFields = new ArrayList<>();
   private final List<ComboBox<String>> colorBoxes = new ArrayList<>();
 
+  /**
+   * Constructor for the PlayerCreationDialog.
+   *
+   * @param owner The owner stage of this dialog.
+   */
   public PlayerCreationDialog(Stage owner) {
     setTitle("Create New Players");
     initModality(Modality.APPLICATION_MODAL);
@@ -58,12 +67,14 @@ public class PlayerCreationDialog extends Stage {
     setScene(new Scene(root));
   }
 
+  /**
+   * Updates the player rows based on the selected number of players.
+   */
   private void updatePlayerRows() {
     playerRows.getChildren().clear();
     nameFields.clear();
     colorBoxes.clear();
     int count = playerCountBox.getValue();
-    Set<String> usedColors = new HashSet<>();
     for (int i = 0; i < count; i++) {
       TextField nameField = new TextField();
       nameField.setPromptText("Player " + (i + 1) + " name");
@@ -71,12 +82,6 @@ public class PlayerCreationDialog extends Stage {
       colorBox.getItems().addAll(COLORS);
       colorBox.setPromptText("Color");
       colorBox.setEditable(false);
-      colorBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-        // Prevent duplicate color selection
-        if (newVal != null && Collections.frequency(getSelectedColors(), newVal) > 1) {
-          colorBox.setValue(null);
-        }
-      });
       nameFields.add(nameField);
       colorBoxes.add(colorBox);
       HBox row = new HBox(10, nameField, colorBox);
@@ -85,6 +90,11 @@ public class PlayerCreationDialog extends Stage {
     }
   }
 
+  /**
+   * Validates the input fields for player names and colors.
+   *
+   * @return true if all inputs are valid, false otherwise.
+   */
   private boolean validateInputs() {
     Set<String> names = new HashSet<>();
     Set<String> colors = new HashSet<>();
@@ -107,6 +117,11 @@ public class PlayerCreationDialog extends Stage {
     return true;
   }
 
+  /**
+   * Returns a list of selected colors from the color boxes.
+   *
+   * @return A list of selected colors.
+   */
   private List<String> getSelectedColors() {
     List<String> selected = new ArrayList<>();
     for (ComboBox<String> box : colorBoxes) {
@@ -115,6 +130,12 @@ public class PlayerCreationDialog extends Stage {
     return selected;
   }
 
+
+  /**
+   * Saves the player names and colors to a CSV file.
+   *
+   * @param file The file to save to.
+   */
   private void saveToFile(File file) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
       for (int i = 0; i < nameFields.size(); i++) {
@@ -126,12 +147,22 @@ public class PlayerCreationDialog extends Stage {
     }
   }
 
+  /**
+   * Shows an alert dialog with the given message.
+   *
+   * @param msg The message to display.
+   */
   private void showAlert(String msg) {
     Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
     alert.initOwner(this);
     alert.showAndWait();
   }
 
+  /**
+   * Returns the path of the saved file.
+   *
+   * @return The path of the saved file, or null if no file was saved.
+   */
   public Path getSavedFilePath() {
     return savedFilePath;
   }
