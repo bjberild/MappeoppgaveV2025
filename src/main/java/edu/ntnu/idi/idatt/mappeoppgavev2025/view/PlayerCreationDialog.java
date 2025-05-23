@@ -16,6 +16,8 @@ import java.util.*;
 /**
  * A dialog for creating new players in the game.
  * Allows the user to specify player names and colors.
+ *
+ * @author bjberild
  */
 public class PlayerCreationDialog extends Stage {
   private Path savedFilePath = null;
@@ -29,6 +31,7 @@ public class PlayerCreationDialog extends Stage {
    * Constructor for the PlayerCreationDialog.
    *
    * @param owner The owner stage of this dialog.
+   * @author bjberild
    */
   public PlayerCreationDialog(Stage owner) {
     setTitle("Create New Players");
@@ -69,6 +72,8 @@ public class PlayerCreationDialog extends Stage {
 
   /**
    * Updates the player rows based on the selected number of players.
+   *
+   * @author bjberild
    */
   private void updatePlayerRows() {
     playerRows.getChildren().clear();
@@ -94,6 +99,7 @@ public class PlayerCreationDialog extends Stage {
    * Validates the input fields for player names and colors.
    *
    * @return true if all inputs are valid, false otherwise.
+   * @author bjberild
    */
   private boolean validateInputs() {
     Set<String> names = new HashSet<>();
@@ -121,6 +127,7 @@ public class PlayerCreationDialog extends Stage {
    * Saves the player names and colors to a CSV file.
    *
    * @param file The file to save to.
+   * @author bjberild
    */
   private void saveToFile(File file) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
@@ -137,6 +144,7 @@ public class PlayerCreationDialog extends Stage {
    * Shows an alert dialog with the given message.
    *
    * @param msg The message to display.
+   * @author bjberild
    */
   private void showAlert(String msg) {
     Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
@@ -148,6 +156,7 @@ public class PlayerCreationDialog extends Stage {
    * Returns the path of the saved file.
    *
    * @return The path of the saved file, or null if no file was saved.
+   * @author bjberild
    */
   public Path getSavedFilePath() {
     return savedFilePath;

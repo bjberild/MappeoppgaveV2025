@@ -15,6 +15,14 @@ import java.nio.file.Path;
 import javafx.stage.Stage;
 import java.util.logging.Logger;
 
+/*
+ * SnlSelectScreen.java
+ * This class represents the screen where the user can select a board and players for the game.
+ * It provides buttons to load a board and players, as well as to create new players.
+ * The selected board and players are stored in Path variables.
+ *
+ * @author bjberild
+ */
 public class SnlSelectScreen {
   private static final Logger logger = Logger.getLogger(SnlSelectScreen.class.getName());
   private VBox view;
@@ -38,6 +46,12 @@ public class SnlSelectScreen {
     this.menuLayout = menuLayout;
   }
 
+  /**
+   * Initializes the Snakes and Ladders selection screen.
+   * This method sets up the layout, buttons, and event handlers for the screen.
+   *
+   * @author bjberild
+   */
   public void initialize() {
     view.getChildren().clear();
     // Initialize the view with buttons and other UI elements
@@ -146,6 +160,13 @@ public class SnlSelectScreen {
     return playersPath;
   }
 
+  /**
+   * Sets the start button for the Snakes and Ladders selection screen.
+   * This method allows the caller to provide a custom button for starting the game.
+   *
+   * @param startButton The button to be used for starting the game.
+   * @author bjberild
+   */
   public void setStartButton(Button startButton) {
     this.startButton = startButton;
     view.getChildren().remove(startButton);
