@@ -8,6 +8,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
+
+/**
+ * ConnectFourController handles the game logic and user interactions for the Connect Four game.
+ * It manages the game state, player turns, and updates the view accordingly.
+ *
+ * @author bjberild
+ */
 public class ConnectFourController {
   private final ConnectFourGameView view;
   private final ConnectFourBoard board;
@@ -15,6 +22,16 @@ public class ConnectFourController {
   private boolean winCon = false;
   private boolean finished = false;
 
+
+  /**
+   * Constructor for ConnectFourController.
+   * Initializes the controller with the game view and board.
+   * Sets up event handlers for the game buttons.
+   *
+   * @param view  The view associated with the game.
+   * @param board The game board.
+   * @author bjberild
+   */
   public ConnectFourController(ConnectFourGameView view, ConnectFourBoard board) {
     this.view = view;
     this.board = board;
@@ -42,10 +59,22 @@ public class ConnectFourController {
     });
   }
 
+  /**
+   * Adds an event handler for the return button.
+   *
+   * @param handler The event handler to be added.
+   */
   public void addReturnButtonHandler(EventHandler<ActionEvent> handler) {
     view.setReturnButtonHandler(handler);
   }
 
+  /**
+   * Handles the move made by the player.
+   * Updates the board and view accordingly.
+   *
+   * @param col The column where the player wants to drop their piece.
+   * @author bjberild
+   */
   public void handleMove(int col) {
     if (finished) {
       System.out.println("Game is already finished. No more moves allowed.");
@@ -70,6 +99,12 @@ public class ConnectFourController {
     }
   }
 
+  /**
+   * Resets the game to its initial state.
+   * Clears the board and view, and resets the current player.
+   *
+   * @author bjberild
+   */
   public void resetGame() {
       board.reset();
       view.clearBoard();
@@ -80,6 +115,12 @@ public class ConnectFourController {
       finished = false;
   }
 
+  /**
+   * Switches the current player.
+   * Updates the view to reflect the current player's name.
+   *
+   * @author bjberild
+   */
   private void switchPlayer() {
     currentPlayer = (currentPlayer == ConnectFourPiece.PLAYER_1) ? ConnectFourPiece.PLAYER_2 : ConnectFourPiece.PLAYER_1;
     view.setCurrentPlayerLabel(currentPlayer.getPlayerName());

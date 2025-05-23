@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.PlayerController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
@@ -19,6 +23,7 @@ import javafx.stage.FileChooser;
 
 public class ControlPanelView extends VBox {
     private final TextArea eventArea = new TextArea();
+    private final Button nextRound= new Button("Next Round");
     private final Button savePlayers = new Button("Save Players");
     private final Button restart      = new Button("Restart Game");
     private final Button saveBoardJson = new Button("Save Board");
@@ -34,10 +39,12 @@ public class ControlPanelView extends VBox {
         eventArea.setEditable(false);
         eventArea.setPrefHeight(100);
 
+        nextRound.setOnAction(e -> playerCtrl.playOneRound());
         savePlayers.setOnAction(e -> onSavePlayers(playerCtrl.getPlayers()));
         restart.setOnAction(e -> {
             playerCtrl.resetGame();
             eventArea.clear();
+            nextRound.setDisable(false);
             restart.setDisable(true);
         });
 
@@ -51,6 +58,7 @@ public class ControlPanelView extends VBox {
         playerCtrl.getGame().addEventListener(msg -> {
             eventArea.appendText(msg + "\n");
             if (msg.contains("won the game")) {
+                nextRound.setDisable(true);
                 restart.setDisable(false);
             }
         });
