@@ -4,7 +4,9 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnakesAndLaddersView;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnlSelectScreen;
+import java.nio.file.Path;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -47,7 +49,7 @@ public class MainMenuGUI extends Application {
 
         Scene menuScene = new Scene(root);
 
-        primaryStage.setTitle("Game Game");
+        primaryStage.setTitle("Board Game Hub");
         primaryStage.setScene(menuScene);
 
         primaryStage.setWidth(900);
