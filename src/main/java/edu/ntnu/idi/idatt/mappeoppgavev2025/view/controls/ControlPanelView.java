@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.view.controls;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class ControlPanelView extends VBox {
     private final TextArea eventArea = new TextArea();
     private final Button savePlayers = new Button("Save Players");
     private final Button restart      = new Button("Restart Game");
+    private final Button saveBoardJson = new Button("Save Board");
 
     private final PlayerController playerCtrl;
     
@@ -39,10 +41,12 @@ public class ControlPanelView extends VBox {
             restart.setDisable(true);
         });
 
-   
-    
+        saveBoardJson.setOnAction(e -> onSaveBoardJson());
+
+
+
         restart.setDisable(true);
-        getChildren().addAll(eventArea, savePlayers, restart);
+        getChildren().addAll(eventArea, saveBoardJson, savePlayers, restart);
 
         playerCtrl.getGame().addEventListener(msg -> {
             eventArea.appendText(msg + "\n");
@@ -83,6 +87,17 @@ public class ControlPanelView extends VBox {
         a.show();
     }
 
+    private void onSaveBoardJson() {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+        File file = chooser.showSaveDialog(getScene().getWindow());
+        if (file == null) return;
+        try {
+            playerCtrl.saveBoardAsJson(Path.of(file.toURI()));
+            showInfo("Board saved to " + file.getName());
+        } catch (IOException ex) {
+            showError("Error saving board:\n" + ex.getMessage());
+        }
 
-    
+    }
 }
