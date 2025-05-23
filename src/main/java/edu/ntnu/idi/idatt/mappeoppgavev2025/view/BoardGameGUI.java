@@ -16,6 +16,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class BoardGameGUI {
+    private SnakesAndLaddersView snakesview;
+
 
     public Scene getScene(Stage stage) {
 
@@ -51,6 +53,7 @@ public class BoardGameGUI {
         PlayerController pc = new PlayerController(game);
 
         SnakesAndLaddersView view = new SnakesAndLaddersView(pc);
+        this.snakesview = view;
 
         
         game.addEventListener(new TileHighlighter(view.getBoardView()));
@@ -65,6 +68,11 @@ public class BoardGameGUI {
         );
         return scene;
     }
+
+    public SnakesAndLaddersView getSnakesAndLaddersView() {
+        return snakesview;
+    }
+
 
     private void showError(String msg) {
         Alert alert = new Alert(AlertType.ERROR);

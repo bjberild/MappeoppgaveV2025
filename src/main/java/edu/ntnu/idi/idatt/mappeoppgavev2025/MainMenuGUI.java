@@ -1,10 +1,10 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025;
 
-
 import edu.ntnu.idi.idatt.mappeoppgavev2025.controller.ConnectFourController;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.ConnectFourBoard;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.BoardGameGUI;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.view.ConnectFourGameView;
+import edu.ntnu.idi.idatt.mappeoppgavev2025.view.SnakesAndLaddersView;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -26,6 +26,7 @@ public class MainMenuGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        root = new StackPane();
 
         Image gifImage = new Image(getClass().getResourceAsStream("/edu/ntnu/idi/idatt/mappeoppgavev2025/images/Jungle-Background.gif"));
         backgroundView = new ImageView(gifImage);
@@ -33,58 +34,58 @@ public class MainMenuGUI extends Application {
         backgroundView.setFitHeight(1750);
         backgroundView.setPreserveRatio(true);
 
-        Button snlB = new Button("Snakes and Ladders");
+           Button snlButton = new Button("Snakes and Ladders");
+        snlButton.setOnAction(e -> {
 
-        snlB.setOnAction(e -> {
-           BoardGameGUI launcher = new BoardGameGUI();
-           Scene gameScene = launcher.getScene(primaryStage);
-           primaryStage.setScene(gameScene);
-           primaryStage.sizeToScene();
-           primaryStage.centerOnScreen();
+            BoardGameGUI launcher = new BoardGameGUI();
+            Scene snlScene = launcher.getScene(primaryStage);
+
+            SnakesAndLaddersView view = launcher.getSnakesAndLaddersView();
+            view.setOnReturn(evt -> {
+                primaryStage.setScene(menuLayout.getScene());
+                primaryStage.sizeToScene();
+                primaryStage.centerOnScreen();
+            });
+
+            primaryStage.setScene(snlScene);
+            primaryStage.sizeToScene();
+            primaryStage.centerOnScreen();
         });
 
-        Button c4MenuBtn = getC4Button();
 
-        menuLayout = new VBox(10, snlB, c4MenuBtn);
-        menuLayout.setPadding(new Insets(20));
+        Button c4Button = new Button("Connect Four");
 
-        root.getChildren().addAll(backgroundView, menuLayout);
-
-        Scene menuScene = new Scene(root);
-
-        primaryStage.setTitle("Game Game");
-        primaryStage.setScene(menuScene);
-
-        primaryStage.setWidth(900);
-        primaryStage.setHeight(700);
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(700);
-        primaryStage.setResizable(true);
-
-        primaryStage.show();
-    }
-
-    private Button getC4Button() {
-        Button c4MenuBtn = new Button("Connect Four");
-
-        c4MenuBtn.setOnAction(e -> {
+        c4Button.setOnAction(e -> {
             ConnectFourBoard c4board = new ConnectFourBoard();
             ConnectFourGameView c4view = new ConnectFourGameView();
-            ConnectFourController c4controller = new ConnectFourController(c4view, c4board);
-            Pane c4layout = c4controller.getView();
-            c4controller.addReturnButtonHandler(event -> {
-                root.getChildren().remove(c4layout);
-                root.getChildren().addAll(backgroundView,menuLayout);
-            });
-            root.getChildren().removeAll(backgroundView,menuLayout,c4layout);
-            root.getChildren().add(c4layout);
-        });
-        return c4MenuBtn;
-    }
+            ConnectFourController c4ctrl = new ConnectFourController(c4view, c4board);
 
+            c4ctrl.addReturnButtonHandler(evt -> {
+                primaryStage.setScene(menuLayout.getScene());
+                primaryStage.sizeToScene();
+                primaryStage.centerOnScreen();
+            });
+
+            Scene c4Scene = c4ctrl.getScene();
+            primaryStage.setScene(c4Scene);
+            primaryStage.sizeToScene();
+            primaryStage.centerOnScreen();
+        });
+
+
+    menuLayout = new VBox(10, snlButton, c4Button);
+    menuLayout.setPadding(new Insets(20));
+
+    root.getChildren().addAll(backgroundView, menuLayout);
+
+    Scene scene = new Scene(root, 900, 700);
+    primaryStage.setTitle("Main Menu");
+    primaryStage.setScene(scene);
+    primaryStage.setMinWidth(800);
+    primaryStage.setMinHeight(700);
+    primaryStage.show();
+    }
     public static void main(String[] args) {
         launch(args);
     }
-
-    
 }
