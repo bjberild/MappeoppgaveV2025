@@ -7,8 +7,17 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
- //Left side of the layout: Players
+/**
+ * Viser oversikt over alle spillere i venstre del av GUI.
+ * 
+ * @author StianDolerud
+ */
 public class PlayerView extends VBox {
+    /**
+     * Oppretter spilleroversikten basert på en liste med spillere.
+     *
+     * @param players liste av spillere som skal vises
+     */
     public PlayerView(List<Player> players) {
         setPadding(new Insets(20));
         setSpacing(20);
@@ -16,5 +25,5 @@ public class PlayerView extends VBox {
         title.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
         getChildren().add(title);
         players.forEach(p -> getChildren().add(new Label(p.getName())));
-  }
+    }
 }

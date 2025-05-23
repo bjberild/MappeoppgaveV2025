@@ -2,6 +2,17 @@ package edu.ntnu.idi.idatt.mappeoppgavev2025.view.board;
 
 import javafx.geometry.Pos;
 
+
+/**
+ * Default implementation of {@link PipPlacementStrategy} that provides
+ * predefined positions for up to five tokens on a single tile.
+ * <p>
+ * Uses a fixed lookup table of {@link Pos} values to evenly distribute
+ * token icons within the tile area.
+ * </p>
+ * 
+ * @author StianDolerud
+ */
 public class DefaultPipPlacementStrategy implements PipPlacementStrategy {
      private static final Pos[] PIPS = {
         Pos.CENTER,
@@ -10,6 +21,17 @@ public class DefaultPipPlacementStrategy implements PipPlacementStrategy {
         Pos.TOP_LEFT, Pos.TOP_RIGHT, Pos.BOTTOM_LEFT, Pos.BOTTOM_RIGHT,
         Pos.TOP_LEFT, Pos.TOP_RIGHT, Pos.BOTTOM_LEFT, Pos.BOTTOM_RIGHT, Pos.CENTER
     };
+
+       /**
+     * Computes an array of positions for rendering {@code numTokens} icons
+     * on a tile. Supports between 1 and 5 tokens.
+     *
+     * @param numTokens the number of tokens to place on the tile
+     * @return an array of {@link Pos} values indicating where each token
+     *         should be drawn
+     * @throws IllegalArgumentException if {@code numTokens} is less than 1
+     *                                  or greater than 5
+     */
 
 
     @Override

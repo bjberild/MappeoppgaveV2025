@@ -1,16 +1,34 @@
 package edu.ntnu.idi.idatt.mappeoppgavev2025.persistence;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player;
-import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistence;          
-import edu.ntnu.idi.idatt.mappeoppgavev2025.persistence.PlayerPersistenceException; 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Player; 
+
+/**
+ * Load and saces Player definitons to and from a CSV file.
+ * 
+ * <p>Each line in the CSV file should contain a player name and a token, separated by a comma.
+ * Missing token or extra colums will produca a PlayerPersistenceException.
+ * 
+ * @author StianDolerud
+ */
 
 public class CsvPlayerPersistence implements PlayerPersistence {
 
     private static final String SEP = ",";
+
+   /**
+   * Reads players from a CSV file.
+   *
+   * @param csvFile the path to the CSV file containing player definitions
+   * @return a list of {@link Player} objects
+   * @throws PlayerPersistenceException if the file cannot be read or if any line is malformed
+   */
 
     @Override
     public List<Player> load (Path csvFile) throws PlayerPersistenceException {
@@ -30,6 +48,15 @@ public class CsvPlayerPersistence implements PlayerPersistence {
             throw new PlayerPersistenceException("Error reading CSV file", e);
         }
     }
+
+
+  /**
+   * Writes a list of players to a CSV file.
+   *
+   * @param csvFile the path to write the CSV to
+   * @param players the players to serialize
+   * @throws PlayerPersistenceException if an I/O error occurs during writing
+   */
 
     @Override
     public void save(Path csvFile, List<Player> players) throws PlayerPersistenceException {

@@ -5,7 +5,22 @@ import java.io.InputStream;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Fabrikk for å lage {@code ImageView}-ikoner for spillbrikker basert på ressursnavn.
+ * Prøver å finne bilde med oppgitt navn, eller bruker standardikon om det mangler.
+ *
+ * @author StianDolerud
+ */
 public class ResourceTokenIconFactory implements TokenIconFactory {
+    
+    /**
+     * Oppretter et ikon for en spillbrikke basert på navnet til brikken.
+     * Faller tilbake på et standardikon dersom det spesifikke ikonet ikke finnes.
+     *
+     * @param tokenName navnet på spillbrikken/ikonet
+     * @return et {@code ImageView} med riktig ikon
+     * @throws IllegalArgumentException hvis ingen ikonressurs blir funnet
+     */
     @Override
     public ImageView createIcon(String tokenName) {
         String path = "/resources/edu/ntnu/idi/idatt/mappeoppgavev2025/images/tokens/" + tokenName + ".png";
@@ -27,5 +42,4 @@ public class ResourceTokenIconFactory implements TokenIconFactory {
         iv.setFitHeight(50);
         return iv;
     }
-    
 }

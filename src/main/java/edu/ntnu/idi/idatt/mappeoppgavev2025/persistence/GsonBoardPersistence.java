@@ -13,11 +13,29 @@ import edu.ntnu.idi.idatt.mappeoppgavev2025.model.PortalAction;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.Tile;
 import edu.ntnu.idi.idatt.mappeoppgavev2025.model.TileAction;
 
-
+/**
+ * Implementation of {@link BoardPersistence} using Gson.
+ *
+ * Provides methods to serialize a {@link edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board}
+ * to JSON and to deserialize a JSON object back into a {@link edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board}.
+ *
+ * <p>The JSON format includes a <code>name</code> property and a <code>tiles</code> array,
+ * where each tile object contains an <code>id</code>, an optional <code>nextTile</code>,
+ * and an optional <code>action</code> block with <code>type</code> and <code>destinationTileId</code>.
+ *
+ * @author StianDolerud
+ */
 
 public class GsonBoardPersistence implements BoardPersistence {
 
     private final Gson gson = new Gson();
+
+   /**
+   * Serialize a {@link edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board} into a {@link com.google.gson.JsonObject}.
+   *
+   * @param board the board to serialize
+   * @return a JsonObject representing the board, including <code>name</code> and <code>tiles</code>
+   */
 
     @Override
     public JsonObject serialize(Board board) {
@@ -55,6 +73,19 @@ public class GsonBoardPersistence implements BoardPersistence {
         return root;
     }
 
+      /**
+   * Deserialize a {@link com.google.gson.JsonObject} into a {@link edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board}.
+   *
+   * <p>The JSON must contain a <code>tiles</code> array of objects with
+   * required <code>id</code> and optional <code>nextTile</code> and <code>action</code> entries.
+   *
+   * @param json the JsonObject to deserialize
+   * @return the constructed {@link edu.ntnu.idi.idatt.mappeoppgavev2025.model.Board}
+   * @throws IllegalArgumentException if JSON is missing the <code>tiles</code> array or contains invalid entries
+   */
+
+
+    
     @Override
     public Board deserialize(JsonObject json) {
         if (!json.has("tiles") || !json.get("tiles").isJsonArray()) {
